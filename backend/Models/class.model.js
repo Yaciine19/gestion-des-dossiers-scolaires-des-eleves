@@ -11,7 +11,8 @@ const classSchema = mongoose.Schema(
       required: true,
     },
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
+    teachers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    // subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }],
   },
   { timestamps: true }
 );

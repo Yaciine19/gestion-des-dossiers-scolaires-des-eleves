@@ -9,6 +9,8 @@ import cookieParser from "cookie-parser";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import subjectRouter from "./routes/subject.routes.js";
 import eventRouter from "./routes/event.routes.js";
+import examRouter from "./routes/exam.routes.js";
+import bulletinRoutes from "./routes/bulletin.routes.js";
 
 const app = express();
 
@@ -21,6 +23,9 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/classes", classRouter);
 app.use("/api/v1/subjects", subjectRouter);
 app.use("/api/v1/events", eventRouter);
+app.use("/api/v1/exams", examRouter);
+app.use("/api/v1/bulletins", bulletinRoutes);
+
 
 app.use(errorMiddleware);
 

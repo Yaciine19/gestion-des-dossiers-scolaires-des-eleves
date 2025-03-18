@@ -50,26 +50,38 @@ const userSchema = mongoose.Schema(
       trim: true,
     },
     classId: {
-      // For Students
+      // For Students and Teachers
       type: mongoose.Schema.Types.ObjectId,
       ref: "Class",
       default: null,
+      sparse: true,
     },
-    subjects: {
+    subject: {
       // For Teachers
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subject",
       default: null,
+      sparse: true,
     },
   },
   { timestamps: true }
 );
 
 userSchema.pre("save", function (next) {
+  if (this.isActive) {
+    this.status = "active";
+  }
+
   if (this.role === "Admin" || this.role === "Teacher") {
     this.isActive = true;
     this.status = "active";
+
+    // Remove classId and regregistrationNumber from model of Admin and Teacher
     this.registrationNumber = undefined;
+  }
+
+  if (this.role === "Admin" || this.role === "Student") {
+    this.subject = undefined;
   }
 
   next();
@@ -93,6 +105,25 @@ userSchema.pre("save", function (next) {
 
 //   next();
 // });
+
+// حذف استاذ من المادة التي يدرسها اذا تم حذفه
+userSchema.pre("findOneAndDelete", async function (next) {
+  const teacher = await this.model.findOne(this.getFilter());
+
+  if (teacher && teacher.role === "Teacher") {
+    await Subject.updateMany(
+      { teachers: teacher._id },
+      { $pull: { teachers: teacher._id } }
+    );
+
+    await Class.updateMany(
+      { teachers: teacher._id },
+      { $pull: { teachers: teacher._id } }
+    );
+  }
+
+  next();
+});
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 

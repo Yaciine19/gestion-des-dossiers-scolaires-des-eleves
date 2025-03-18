@@ -43,7 +43,7 @@ export const CreateEvent = async (req, res, next) => {
 
     if (event) {
       const error = new Error("Subject already exists");
-      error.message = 409;
+      error.statusCode = 409;
       throw error;
     }
 

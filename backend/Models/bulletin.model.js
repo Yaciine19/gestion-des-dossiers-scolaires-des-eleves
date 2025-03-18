@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-const termSchema = mongoose.Schema({
-  termNumber: {
-    type: Number,
+const subjectScoreSchema = mongoose.Schema({
+  subject: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject",
     required: true,
   },
   examScore: {
@@ -11,7 +12,6 @@ const termSchema = mongoose.Schema({
     min: 0,
     max: 20,
   },
-  // علامة التقويم المستمر
   continuousAssessment: {
     type: Number,
     required: true,
@@ -20,52 +20,44 @@ const termSchema = mongoose.Schema({
   },
   finalScore: {
     type: Number,
-    required: true,
+    default: 0,
     min: 0,
     max: 20,
   },
 });
 
 const bulletinSchema = mongoose.Schema({
-  // ربط بالطالب
   student: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  class: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Class",
+  class: { type: mongoose.Schema.Types.ObjectId, ref: "Class", required: true },
+  termNumber: {
+    type: Number,
     required: true,
   },
-  subject: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Subject",
-    required: true,
-  },
-  terms: [termSchema], // تخزين البيانات الفصول الثلاثة
-  annualAverage: {
+  subjects: [subjectScoreSchema],
+  termAverage: {
     type: Number,
     default: 0,
   },
 });
 
 bulletinSchema.pre("save", function (next) {
-  this.terms.forEach((term) => {
-    term.finalScore = ( term.examScore + term.continuousAssessment ) / 2;
+  this.subjects.forEach((subject) => {
+    subject.finalScore = (subject.examScore + subject.continuousAssessment) / 2;
   });
 
-  if (this.terms.length === 3) {
-    const totalScore = this.terms.reduce(
-      (sum, term) => sum + term.finalScore,
-      0
-    );
-    this.annualAverage = totalScore / 3;
-  }
+  const totalScore = this.subjects.reduce(
+    (sum, subject) => sum + subject.finalScore,
+    0
+  );
+  this.termAverage = totalScore / this.subjects.length;
 
   next();
 });
 
-const Bulletin = mongoose.models.Bulletin || mongoose.model("Bulletin", bulletinSchema);
-
+const Bulletin =
+  mongoose.models.Bulletin || mongoose.model("Bulletin", bulletinSchema);
 export default Bulletin;

@@ -43,7 +43,7 @@ export const getSubjectDetails = async (req, res, next) => {
   
       if (subject) {
         const error = new Error("Subject already exists");
-        error.message = 409;
+        error.statusCode = 409;
         throw error;
       }
   

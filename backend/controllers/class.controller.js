@@ -36,14 +36,14 @@ export const getClassDetails = async (req, res, next) => {
 
 export const CreateClass = async (req, res, next) => {
   try {
-    const { name, level, students, subjects } = req.body;
+    const { name, level, students, teachers } = req.body;
 
     // Check if class exists
     const existingClass = await Class.findOne({ name, level });
 
     if (existingClass) {
       const error = new Error("Class already exists");
-      error.message = 409;
+      error.statusCode = 409;
       throw error;
     }
 
@@ -51,7 +51,8 @@ export const CreateClass = async (req, res, next) => {
       name,
       level,
       students: students || [],
-      subjects: subjects || [],
+      // subjects: subjects || [],
+      teachers: teachers || []
     });
     await newClass.save();
 
