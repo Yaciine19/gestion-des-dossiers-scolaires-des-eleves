@@ -11,6 +11,7 @@ import subjectRouter from "./routes/subject.routes.js";
 import eventRouter from "./routes/event.routes.js";
 import examRouter from "./routes/exam.routes.js";
 import bulletinRoutes from "./routes/bulletin.routes.js";
+import attendanceRouter from "./routes/attendance.routes.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/api/v1/subjects", subjectRouter);
 app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/exams", examRouter);
 app.use("/api/v1/bulletins", bulletinRoutes);
+app.use("/api/v1/attendances", attendanceRouter);
 
 
 app.use(errorMiddleware);

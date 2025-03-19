@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import {authorize, authorizeRole} from "../middlewares/auth.middleware.js";
 import { assignStudentToClass, createStudent, deleteStudent, getStudentDetails, getStudents, updateStudent } from "../controllers/UserController/Student/student.controller.js";
-import { AssginClass, AssignSubject, createTeacher, deleteTeacher, getTeacherDetails, getTeachers, studentsTaughtByTeacher, teacherWithoutSubject, updateTeacher } from "../controllers/UserController/Teacher/teacher.conroller.js";
+import { AssginClass, AssignSubject, createTeacher, deleteTeacher, getStudentsByTeacher, getTeacherDetails, getTeachers, studentsTaughtByTeacher, teacherWithoutSubject, updateTeacher } from "../controllers/UserController/Teacher/teacher.conroller.js";
 import { createAdmin, deleteAdmin, getAdminDetails, getAdmins, updateAdmin } from "../controllers/UserController/Admin/admin.controller.js";
 import { authorize } from "../middlewares/auth.middleware.js";
 
@@ -39,6 +39,8 @@ userRouter.post("/teachers/assign-class", AssginClass);
 userRouter.get("/teachers-without-subject", teacherWithoutSubject);
 
 userRouter.get('/teachers/teacher-students', authorize, studentsTaughtByTeacher);
+
+userRouter.get('/teachers/students/:id', getStudentsByTeacher);
 
 // Admins
 

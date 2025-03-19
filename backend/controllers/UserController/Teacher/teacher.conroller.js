@@ -260,3 +260,25 @@ export const AssginClass = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getStudentsByTeacher = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+
+    const teacher = await User.findOne({_id: id, role: "Teacher"});
+
+    if (!teacher || teacher.role !== "Teacher") {
+      return res.status(404).json({ success: false, message: "Teacher not found" });
+    }
+
+    const students = await User.find({ classId: teacher.classId, role: "Student" });
+
+    res.status(200).json({
+      success: true,
+      data: students, 
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
