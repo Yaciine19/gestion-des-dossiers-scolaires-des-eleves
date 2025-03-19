@@ -106,19 +106,33 @@ userSchema.pre("save", function (next) {
 //   next();
 // });
 
-// حذف استاذ من المادة التي يدرسها اذا تم حذفه
-userSchema.pre("findOneAndDelete", async function (next) {
-  const teacher = await this.model.findOne(this.getFilter());
 
-  if (teacher && teacher.role === "Teacher") {
+userSchema.pre("findOneAndDelete", async function (next) {
+  const user = await this.model.findOne(this.getFilter());
+
+  if (user && user.role === "Teacher") {
+    // حذف استاذ من المادة التي يدرسها اذا تم حذفه
     await Subject.updateMany(
-      { teachers: teacher._id },
-      { $pull: { teachers: teacher._id } }
+      { teachers: user._id },
+      { $pull: { teachers: user._id } }
     );
 
+    // حذف استاذ من الصف الذي يدرسه اذا تم حذفه
     await Class.updateMany(
-      { teachers: teacher._id },
-      { $pull: { teachers: teacher._id } }
+      { teachers: user._id },
+      { $pull: { teachers: user._id } }
+    );
+  }
+
+  // حذف التلميذ من الصف الذي يدرسه فيه اذا تم حذفه
+  if (user && user.role === "Student") {
+    await Class.updateMany(
+      {
+        students: user._id,
+      },
+      {
+        $pull: { students: user._id },
+      }
     );
   }
 

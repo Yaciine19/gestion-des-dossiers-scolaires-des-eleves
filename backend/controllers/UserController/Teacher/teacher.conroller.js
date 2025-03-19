@@ -20,7 +20,7 @@ export const getTeacherDetails = async (req, res, next) => {
     const { id } = req.params;
     const teacher = await User.findOne({ _id: id, role: "Teacher" })
       .select("-password")
-      .populate("subject", "name");
+      .populate("subject", "name").populate("classId", "name level");
 
     if (!teacher) {
       const error = new Error("Teacher not found");
@@ -236,7 +236,7 @@ export const AssginClass = async (req, res, next) => {
     }
 
     if (teacher.classId) {
-      res
+       return res
         .status(400)
         .json({ message: "The teacher aleardy has a class assigned with him" });
     }

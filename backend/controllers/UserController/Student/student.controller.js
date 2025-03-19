@@ -21,7 +21,7 @@ export const getStudentDetails = async (req, res, next) => {
     const { id } = req.params;
     const student = await User.findOne({ _id: id, role: "Student" }).select(
       "-password"
-    );
+    ).populate("classId", "name level");
 
     if (!student) {
       const error = new Error("student not found");
@@ -141,11 +141,56 @@ export const deleteStudent = async (req, res, next) => {
 
     if (!student) return res.status(404).json({ message: "Student not found" });
 
-    await User.findOneAndDelete(id);
+    await User.findOneAndDelete({_id: id, role: "Student"});
 
     res.status(200).json({
       success: true,
       message: "Student deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const assignStudentToClass = async (req, res, next) => {
+  try {
+    const { studentId, classId } = req.body;
+
+    const student = await User.findOne({ _id: studentId, role: "Student" });
+
+    if (!student) {
+      const error = new Error("Student not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    const classData = await Class.findById(classId);
+
+    if (!classData) {
+      const error = new Error("Class not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    if (student.classId) {
+      return res.status(400).json({
+        success: false,
+        message: "The student aleardy has a class assigned with him",
+      });
+    }
+
+    student.classId = classId;
+
+    if (!classData.students.includes(studentId)) {
+      classData.students.push(studentId);
+    }
+
+    student.save();
+    classData.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Assigned studnet with class successfully",
     });
   } catch (error) {
     next(error);

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import User from "./user.model.js";
 
 const classSchema = mongoose.Schema(
   {
@@ -16,6 +17,15 @@ const classSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+classSchema.pre("findOneAndDelete", async function (next) {
+  const classData = await this.model.findOne(this.getFilter());
+
+  if (classData) {
+    await User.updateMany({ classId: classData._id }, { $set: { classId: null } });
+  }
+  next();
+});
 
 const Class = mongoose.models.Class || mongoose.model("Class", classSchema);
 

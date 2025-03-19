@@ -105,7 +105,7 @@ export const getSubjectDetails = async (req, res, next) => {
         throw error;
       }
   
-      await Subject.findByIdAndDelete(id);
+      await Subject.findOneAndDelete({_id: id});
   
       res.status(200).json({
         success: true,

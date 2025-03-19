@@ -108,7 +108,7 @@ export const deleteClass = async (req, res, next) => {
       throw error;
     }
 
-    await Class.findByIdAndDelete(id);
+    await Class.findOneAndDelete({_id: id});
 
     res.status(200).json({
       success: true,
