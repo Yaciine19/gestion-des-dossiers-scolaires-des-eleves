@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Class from "./class.model.js";
-import Bulletin from "./bulletin.model.js";
+// import Bulletin from "./bulletin.model.js";
 import Subject from "./subject.model.js";
 
 const userSchema = mongoose.Schema(
