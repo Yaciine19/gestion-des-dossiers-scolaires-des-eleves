@@ -6,13 +6,19 @@ const subjectScoreSchema = mongoose.Schema({
     ref: "Subject",
     required: true,
   },
-  examScore: {
+  testScore: {
     type: Number,
     required: true,
     min: 0,
     max: 20,
   },
   continuousAssessment: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 20,
+  },
+  examScore: {
     type: Number,
     required: true,
     min: 0,
@@ -32,7 +38,11 @@ const bulletinSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
-  class: { type: mongoose.Schema.Types.ObjectId, ref: "Class", required: true },
+  class: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Class",
+    required: true,
+  },
   termNumber: {
     type: Number,
     required: true,
@@ -42,13 +52,20 @@ const bulletinSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  annualAverage: {
+    type: Number,
+    default: 0,
+  },
 });
 
 bulletinSchema.pre("save", function (next) {
+  // حساب العلامة النهائية لكل مادة
   this.subjects.forEach((subject) => {
-    subject.finalScore = (subject.examScore + subject.continuousAssessment) / 2;
+    subject.finalScore =
+      (subject.testScore + subject.continuousAssessment + subject.examScore) / 3;
   });
 
+  // حساب معدل الفصل
   const totalScore = this.subjects.reduce(
     (sum, subject) => sum + subject.finalScore,
     0

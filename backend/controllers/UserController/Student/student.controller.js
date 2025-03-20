@@ -196,3 +196,24 @@ export const assignStudentToClass = async (req, res, next) => {
     next(error);
   }
 };
+
+// Activited student account
+export const activateStudent = async (req, res, next) => {
+  try {
+    const { studentId } = req.params;
+
+    const student = await User.findOne({_id:studentId, role: "Student"});
+
+    if (!student) {
+      return res.status(404).json({ success: false, message: "Student not found" });
+    }
+
+    student.isActive = true;
+    student.status = "active";
+    await student.save();
+
+    res.json({ success: true, message: "Student account activated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};

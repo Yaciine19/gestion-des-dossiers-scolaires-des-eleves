@@ -1,12 +1,19 @@
 import { Router } from "express";
-import { generateBulletins, getStudentBulletin, updateBulletin } from "../controllers/bulletin.controller.js";
+import { calculateAnnualAverage, getStudentAcademicRecord, getStudentBulletin, getStudentsAcademicHistory, updateBulletin } from "../controllers/bulletin.controller.js";
+import { authorize } from "../middlewares/auth.middleware.js";
 
 const bulletinRouter = Router();
 
-bulletinRouter.post('/update', updateBulletin);
+bulletinRouter.put('/update', authorize, updateBulletin);
 
-bulletinRouter.get('/student/:studentId/term/:termNumber', getStudentBulletin);
+bulletinRouter.get('/:studentId/term/:termNumber', getStudentBulletin);
 
-bulletinRouter.post('/generate', generateBulletins);
+bulletinRouter.get('/annual/:studentId', calculateAnnualAverage);
+
+// المعلم يعرض السجل الأكاديمي للطلاب الذين يدرسهم
+bulletinRouter.get("/teacher/students-history", authorize, getStudentsAcademicHistory);
+
+// الطالب يعرض سجله الأكاديمي الخاص
+bulletinRouter.get("/student/academic-record", authorize, getStudentAcademicRecord);
 
 export default bulletinRouter;
