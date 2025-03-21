@@ -12,8 +12,11 @@ import eventRouter from "./routes/event.routes.js";
 import examRouter from "./routes/exam.routes.js";
 import bulletinRoutes from "./routes/bulletin.routes.js";
 import attendanceRouter from "./routes/attendance.routes.js";
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

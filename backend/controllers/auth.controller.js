@@ -15,9 +15,18 @@ export const signUp = async (req, res, next) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const error = new Error("User already exists");
-      error.statuscode = 409;
-      throw error;
+      return res.status(409).json({message: 'User already exists' });
+      // const error = new Error("User already exists");
+      // error.statuscode = 409;
+      // throw error;
+    }
+
+    if (registrationNumber) {
+      const existingRegistration = await User.findOne({ registrationNumber });
+
+      if (existingRegistration) {
+        return res.status(409).json({ message: "Registration number already exists" });
+      }
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -31,7 +40,7 @@ export const signUp = async (req, res, next) => {
         email: email,
         password: hashedPassword,
         role: role,
-        registrationNumber: role === "Student" ? registrationNumber : null,
+        registrationNumber: registrationNumber ? registrationNumber : null,
       }
     );
 
@@ -80,25 +89,28 @@ export const signIn = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({message: "User not found" })
+      // const error = new Error("User not found");
+      // error.statusCode = 404;
+      // throw error;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      const error = new Error("Invalid password");
-      error.statusCode = 401;
-      throw error;
+      return res.status(401).json({message: "Invalid password" })
+      // const error = new Error("Invalid password");
+      // error.statusCode = 401;
+      // throw error;
     }
 
     if (!user.isActive) {
-      const error = new Error(
-        "Account not activated. Wait for admin approval."
-      );
-      error.statusCode = 403;
-      throw error;
+      return res.status(403).json({message: "Account not activated. Wait for admin approval." })
+      // const error = new Error(
+      //   "Account not activated. Wait for admin approval."
+      // );
+      // error.statusCode = 403;
+      // throw error;
     }
 
     const token = jwt.sign(
