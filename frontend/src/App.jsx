@@ -7,19 +7,33 @@ import RequireBack from "./Pages/Auth/RequireBack";
 import Users from "./Pages/Dashboard/Users/Users";
 import DashboardHome from "./Pages/Dashboard/Home/DashboardHome";
 import RequireAuth from "./Pages/Auth/RequireAuth";
+import Page404 from "./Pages/Auth/Page404";
+import StudentHome from "./Pages/Dashboard/Home/StudentHome";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/*" element={<Page404 />} />
       <Route element={<RequireBack />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
-      <Route element={<RequireAuth allowedRole={["Admin", "Teacher"]} />}>
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route index element={<DashboardHome />} />
-          <Route path="users" element={<Users />} />
+      <Route
+        element={<RequireAuth allowedRole={["Admin", "Teacher", "Student"]} />}
+      >
+        
+        {/* Admin and Teacher */}
+        <Route element={<RequireAuth allowedRole={["Admin", "Teacher"]} />}>
+          <Route path="/dashboard" element={<Dashboard />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="users" element={<Users />} />
+          </Route>
+        </Route>
+
+        {/* Student */}
+        <Route element={<RequireAuth allowedRole={["Student"]} />}>
+          <Route path="/home" element={<StudentHome />} />
         </Route>
       </Route>
     </Routes>

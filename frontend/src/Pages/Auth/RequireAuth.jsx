@@ -4,15 +4,16 @@ import { Axios } from "../../API/axios";
 import { USER } from "../../API/API";
 import { Navigate, Outlet, useNavigate } from "react-router";
 import Loading from "../../Components/Loading";
+import Page403 from "./Page403";
 
 export default function RequireAuth({ allowedRole }) {
   const [user, setUser] = useState("");
 
   const cookie = Cookie();
 
-  const navigate = useNavigate();
-
   const token = cookie.get("parent-space");
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchUser() {
@@ -38,7 +39,7 @@ export default function RequireAuth({ allowedRole }) {
     ) : allowedRole.includes(user.role) ? (
       <Outlet />
     ) : (
-      <Navigate to={"/login"} replace={true} />
+      <Page403 />
     )
   ) : (
     <Navigate to={"/login"} replace={true} />
