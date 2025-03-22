@@ -57,12 +57,13 @@ export default function Login() {
       const token = res.data.data.token;
       cookie.set("parent-space", token);
       const role = res.data.data.user.role;
-      if (role === "Admin") {
+      if (role === "Admin" || role === "Teacher") {
         navigation("/dashboard");
       } else {
         navigation("/");
       }
     } catch (error) {
+      console.log(error)
       setIsLoading(false);
       if (error.response.status === 404 || error.response.status === 401) {
         setError("Wrong Email or Password");

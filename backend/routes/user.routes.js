@@ -1,59 +1,93 @@
 import { Router } from "express";
 // import {authorize, authorizeRole} from "../middlewares/auth.middleware.js";
-import { activateStudent, assignStudentToClass, createStudent, deleteStudent, getStudentDetails, getStudents, updateStudent } from "../controllers/UserController/Student/student.controller.js";
-import { AssginClass, AssignSubject, createTeacher, deleteTeacher, getStudentsByTeacher, getTeacherDetails, getTeachers, studentsTaughtByTeacher, teacherWithoutSubject, updateTeacher } from "../controllers/UserController/Teacher/teacher.conroller.js";
-import { createAdmin, deleteAdmin, getAdminDetails, getAdmins, updateAdmin } from "../controllers/UserController/Admin/admin.controller.js";
+import {
+  activateStudent,
+  assignStudentToClass,
+  createStudent,
+  deleteStudent,
+  getStudentDetails,
+  getStudents,
+  updateStudent,
+} from "../controllers/UserController/Student/student.controller.js";
+import {
+  AssginClass,
+  AssignSubject,
+  createTeacher,
+  deleteTeacher,
+  getStudentsByTeacher,
+  getTeacherDetails,
+  getTeachers,
+  studentsTaughtByTeacher,
+  teacherWithoutSubject,
+  updateTeacher,
+} from "../controllers/UserController/Teacher/teacher.conroller.js";
+import {
+  createAdmin,
+  deleteAdmin,
+  getAdminDetails,
+  getAdmins,
+  updateAdmin,
+} from "../controllers/UserController/Admin/admin.controller.js";
 import { authorize } from "../middlewares/auth.middleware.js";
+import { getUser, getUsers } from "../controllers/UserController/users.controller.js";
 
 const userRouter = Router();
 
+// GET all Users
+userRouter.get("/", authorize, getUsers);
+userRouter.get("/user", authorize, getUser);
+
 // Students
-userRouter.get('/students', getStudents);
+userRouter.get("/students", authorize, getStudents);
 
-userRouter.get("/students/:id", getStudentDetails);
+userRouter.get("/students/:id", authorize, getStudentDetails);
 
-userRouter.post("/students", createStudent);
+userRouter.post("/students", authorize, createStudent);
 
-userRouter.put("/students/:id", updateStudent);
+userRouter.put("/students/:id", authorize, updateStudent);
 
-userRouter.delete("/students/:id", deleteStudent);
+userRouter.delete("/students/:id", authorize, deleteStudent);
 
-userRouter.post("/students/assign-class", assignStudentToClass);
+userRouter.post("/students/assign-class", authorize, assignStudentToClass);
 
-userRouter.put("/students/activate/:studentId", activateStudent);
+userRouter.put("/students/activate/:studentId", authorize, activateStudent);
 
 // Teachers
 
-userRouter.get('/teachers', getTeachers);
+userRouter.get("/teachers", authorize, getTeachers);
 
-userRouter.get("/teachers/:id", getTeacherDetails);
+userRouter.get("/teachers/:id", authorize, getTeacherDetails);
 
-userRouter.post("/teachers", createTeacher);
+userRouter.post("/teachers", authorize, createTeacher);
 
-userRouter.put("/teachers/:id", updateTeacher);
+userRouter.put("/teachers/:id", authorize, updateTeacher);
 
-userRouter.delete("/teachers/:id", deleteTeacher);
+userRouter.delete("/teachers/:id", authorize, deleteTeacher);
 
-userRouter.post("/teachers/assign-subject", AssignSubject);
+userRouter.post("/teachers/assign-subject", authorize, AssignSubject);
 
-userRouter.post("/teachers/assign-class", AssginClass);
+userRouter.post("/teachers/assign-class", authorize, AssginClass);
 
-userRouter.get("/teachers-without-subject", teacherWithoutSubject);
+userRouter.get("/teachers-without-subject", authorize, teacherWithoutSubject);
 
-userRouter.get('/teachers/teacher-students', authorize, studentsTaughtByTeacher);
+userRouter.get(
+  "/teachers/teacher-students",
+  authorize,
+  studentsTaughtByTeacher
+);
 
-userRouter.get('/teachers/students/:id', getStudentsByTeacher);
+userRouter.get("/teachers/students/:id", authorize, getStudentsByTeacher);
 
 // Admins
 
-userRouter.get('/admins', getAdmins);
+userRouter.get("/admins", authorize, getAdmins);
 
-userRouter.get("/admins/:id", getAdminDetails);
+userRouter.get("/admins/:id", authorize, getAdminDetails);
 
-userRouter.post("/admins", createAdmin);
+userRouter.post("/admins", authorize, createAdmin);
 
-userRouter.put("/admins/:id", updateAdmin);
+userRouter.put("/admins/:id", authorize, updateAdmin);
 
-userRouter.delete("/admins/:id", deleteAdmin);
+userRouter.delete("/admins/:id", authorize, deleteAdmin);
 
 export default userRouter;

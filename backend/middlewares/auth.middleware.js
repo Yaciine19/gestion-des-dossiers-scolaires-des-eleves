@@ -13,19 +13,19 @@ export const authorize = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     }
 
-    if (!token) return res.status(401).json({ message: "Unauthorized - No token provided" });
+    if (!token) return res.status(401).json({ message: "Unauthorized - 1 - No token provided" });
 
     let decoded;
 
     try {
        decoded = jwt.verify(token, JWT_SECRET);
     } catch (error) {
-        res.status(401).json({massage: 'Unauthorized - Invalid token', error: error.message})
+        return res.status(401).json({message: 'Unauthorized - 2 - Invalid token', error: error.message})
     }
 
     const user = await User.findById(decoded.userId);
 
-    if (!user) return res.status(401).json({ message: "Unauthorized - User not found" });
+    if (!user) return res.status(401).json({ message: "Unauthorized - 3 - User not found" });
 
     req.user = user;
 
