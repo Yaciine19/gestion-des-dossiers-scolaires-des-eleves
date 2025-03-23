@@ -9,6 +9,7 @@ import DashboardHome from "./Pages/Dashboard/Home/DashboardHome";
 import RequireAuth from "./Pages/Auth/RequireAuth";
 import Page404 from "./Pages/Auth/Page404";
 import StudentHome from "./Pages/Dashboard/Home/StudentHome";
+import Students from "./Pages/Dashboard/Students/Students";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
+            <Route path="students" element={<Students />} />
           </Route>
         </Route>
 

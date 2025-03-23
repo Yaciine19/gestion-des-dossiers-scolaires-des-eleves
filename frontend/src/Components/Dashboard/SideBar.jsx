@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { IoMenu } from "react-icons/io5";
-import { Link, Outlet } from "react-router";
+import { Link } from "react-router";
 import { MdSpaceDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
+import { PiStudentBold } from "react-icons/pi";
+import axios from "axios";
+import { BaseURL, SIGN_OUT } from "../../API/API";
+import Cookie from "cookie-universal";
 
 const NavItems = [
   {
@@ -15,29 +20,33 @@ const NavItems = [
     to: "/dashboard/users",
     navigate: "Users",
   },
+  {
+    icon: <PiStudentBold />,
+    to: "/dashboard/students",
+    navigate: "Students",
+  },
 ];
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
   const asideRef = useRef(null);
 
+  // Cookie
+  const cookie = Cookie();
+
   const handleClick = () => {
     setIsOpen(true);
   };
-  
-  const showNavItems = NavItems.map((item, index) => (
-    <li key={index}>
-      <Link
-        to={item.to}
-        className="flex items-center py-2 px-3 rounded-sm text-white hover:bg-gray-700 group"
-      >
-        <span className="shrink-0 text-2xl text-gray-400 transition duration-75 group-hover:text-white">
-          {item.icon}
-        </span>
-        <span className="ms-3 font-poppins">{item.navigate}</span>
-      </Link>
-    </li>
-  ));
+
+  const handleSignOut = async () => {
+    try {
+      await axios.post(`${BaseURL}/auth/${SIGN_OUT}`);
+      cookie.remove("parent-space");
+      window.location.pathname = "/login"
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -55,6 +64,20 @@ export default function SideBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
+  const showNavItems = NavItems.map((item, index) => (
+    <li key={index}>
+      <Link
+        to={item.to}
+        className="flex items-center py-2 px-3 rounded-sm text-white hover:bg-gray-700 group"
+      >
+        <span className="shrink-0 text-2xl text-gray-400 transition duration-75 group-hover:text-white">
+          {item.icon}
+        </span>
+        <span className="ms-3 font-poppins">{item.navigate}</span>
+      </Link>
+    </li>
+  ));
+
   return (
     <>
       <button
@@ -71,7 +94,7 @@ export default function SideBar() {
           isOpen ? "" : "-translate-x-full"
         } sm:translate-x-0`}
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto  bg-gray-800 border">
           <Link
             to={"/dashboard"}
             className="flex items-center py-3  px-2.5 mb-5"
@@ -80,7 +103,16 @@ export default function SideBar() {
               Parent's <span className="text-primary">Space</span>
             </span>
           </Link>
-          <ul className="space-y-2 font-medium">{showNavItems}</ul>
+          <div className="h-[88%] flex flex-col justify-between">
+            <ul className="space-y-2 font-medium">{showNavItems}</ul>
+
+            <div onClick={handleSignOut} className="flex items-center py-2 px-3 rounded-sm text-white hover:bg-gray-700 group cursor-pointer">
+              <span className="shrink-0 text-2xl text-red-500 transition duration-75 ">
+                <BiLogOut />
+              </span>
+              <span className="ms-3 font-poppins">Sign Out</span>
+            </div>
+          </div>
         </div>
       </aside>
     </>

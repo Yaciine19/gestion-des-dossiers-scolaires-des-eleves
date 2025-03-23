@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { BaseURL, REGISTER } from "../../API/API";
-import Cookie from "cookie-universal";
 import Loading from "../../Components/Loading";
 import Footer from "../../Components/Website/Footer";
 import Input from "../../Components/Input";
+import { Link } from "react-router";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -25,11 +24,6 @@ export default function Register() {
     registrationNumber: "",
     server: "",
   });
-
-  // Cookie
-  const cookie = Cookie();
-
-  const navigation = useNavigate();
 
   const handleChangeForm = (e) => {
     if (errors) {
@@ -70,16 +64,14 @@ export default function Register() {
 
     setIsLoading(true);
     try {
-      const res = await axios.post(`${BaseURL}/auth/${REGISTER}`, form);
-      const token = res.data.data.token;
-      cookie.set("parent-space", token);
+      await axios.post(`${BaseURL}/auth/${REGISTER}`, form);
       setIsLoading(false);
       setTimeout(() => {
         const isConfirmed = confirm(
           "Your account has been successfully created! Please wait for the administrator's approval before you can log in to the platform."
         );
         if (isConfirmed) {
-          navigation("/");
+          window.location.pathname = "/";
         }
       }, 300);
     } catch (error) {
@@ -123,7 +115,7 @@ export default function Register() {
               handleChangeForm={handleChangeForm}
             />
             <Input
-              value={form.firstName}
+              value={form.lastName}
               placeholder={"Last name"}
               name={"lastName"}
               error={errors.lastName}
@@ -162,6 +154,12 @@ export default function Register() {
             >
               Sign up
             </button>
+            <p className="flex justify-center space-x-1 font-poppins">
+              <span className="text-slate-700"> Don't have an account? </span>
+              <Link className="text-blue-500 hover:underline" to="/login">
+                Log In
+              </Link>
+            </p>
             {errors.server && (
               <span className="text-red-500 font-poppins text-center block">
                 {errors.server}

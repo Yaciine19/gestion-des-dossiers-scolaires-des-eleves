@@ -29,13 +29,16 @@ import {
   updateAdmin,
 } from "../controllers/UserController/Admin/admin.controller.js";
 import { authorize } from "../middlewares/auth.middleware.js";
-import { getUser, getUsers } from "../controllers/UserController/users.controller.js";
+import { deleteUser, getUser, getUsers } from "../controllers/UserController/users.controller.js";
 
 const userRouter = Router();
 
 // GET all Users
 userRouter.get("/", authorize, getUsers);
+
 userRouter.get("/user", authorize, getUser);
+
+userRouter.delete('/:id',authorize, deleteUser);
 
 // Students
 userRouter.get("/students", authorize, getStudents);

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import Cookie from "cookie-universal";
 import axios from "axios";
 import { BaseURL, LOGIN } from "../../API/API";
@@ -16,8 +16,6 @@ export default function Login() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const emailRef = useRef(null);
-
-  const navigation = useNavigate();
 
   // cookie
   const cookie = Cookie();
@@ -58,9 +56,9 @@ export default function Login() {
       cookie.set("parent-space", token);
       const role = res.data.data.user.role;
       if (role === "Admin" || role === "Teacher") {
-        navigation("/dashboard");
+        window.location.pathname = "/dashboard";
       } else {
-        navigation("/");
+        window.location.pathname = "/";
       }
     } catch (error) {
       console.log(error)

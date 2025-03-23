@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
-import { USER } from "../../../API/API";
+import { STUDENTS } from "../../../API/API";
 
-export default function Users() {
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState("");
+export default function Students() {
+  const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const header = [
@@ -29,14 +28,19 @@ export default function Users() {
       key: "status",
       name: "Status",
     },
+    {
+      key: "registrationNumber",
+      name: "Registration number",
+    },
   ];
 
   useEffect(() => {
     async function fetchUsers() {
       setIsLoading(true);
       try {
-        const res = await Axios.get("/users");
-        setUsers(res.data.data);
+        const res = await Axios.get(`/users/${STUDENTS}`);
+        // console.log(res);
+        setStudents(res.data.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -45,23 +49,10 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await Axios.get(`users/${USER}`);
-        setUser(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchUser();
-  }, []);
-
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`/users/${id}`);
-      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      await Axios.delete(`/users/${STUDENTS}/${id}`);
+      setStudents((prevUsers) => prevUsers.filter((user) => user._id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -69,13 +60,12 @@ export default function Users() {
   return (
     <>
       <h1 className="text-2xl sm:text-5xl font-semibold font-poppins text-primary mb-10 sm:mb-20 mt-3 sm:mt-4">
-        Users Page
+        Students Page
       </h1>
 
       <Table
         header={header}
-        data={users}
-        user={user}
+        data={students}
         handleDelete={handleDelete}
         isLoading={isLoading}
       />
