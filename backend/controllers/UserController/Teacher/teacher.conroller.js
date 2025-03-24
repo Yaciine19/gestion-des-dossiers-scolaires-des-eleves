@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 export const getTeachers = async (req, res, next) => {
   try {
-    const teachers = await User.find({ role: "Teacher" });
+    const teachers = await User.find({ role: "Teacher" }).select('-password');
     res.status(200).json({
       success: true,
       data: teachers,

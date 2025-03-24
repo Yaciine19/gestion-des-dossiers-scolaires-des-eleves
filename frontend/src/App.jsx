@@ -10,6 +10,9 @@ import RequireAuth from "./Pages/Auth/RequireAuth";
 import Page404 from "./Pages/Auth/Page404";
 import StudentHome from "./Pages/Dashboard/Home/StudentHome";
 import Students from "./Pages/Dashboard/Students/Students";
+import StudentDetail from "./Pages/Dashboard/Students/Student";
+import Teachers from "./Pages/Dashboard/Teachers/Teachers";
+import EditStudent from "./Pages/Dashboard/Students/EditStudent";
 
 export default function App() {
   return (
@@ -30,6 +33,9 @@ export default function App() {
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
             <Route path="students" element={<Students />} />
+            <Route path="students/detail/:id" element={<StudentDetail />} />
+            <Route path="students/edit/:id" element={<EditStudent />} />
+            <Route path="teachers" element={<Teachers />} />
           </Route>
         </Route>
 

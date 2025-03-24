@@ -20,7 +20,7 @@ export const getStudentDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
     const student = await User.findOne({ _id: id, role: "Student" }).select(
-      "-password"
+      "-password -subject"
     ).populate("classId", "name level");
 
     if (!student) {
@@ -85,7 +85,7 @@ export const updateStudent = async (req, res, next) => {
       firstName,
       lastName,
       email,
-      password,
+      // password,
       role,
       isActive,
       classId,
@@ -99,11 +99,11 @@ export const updateStudent = async (req, res, next) => {
     if (firstName) student.firstName = firstName;
     if (lastName) student.lastName = lastName;
     if (email) student.email = email;
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      student.password = await bcrypt.hash(password, salt);
-    }
-    if (role) student.role = role;
+    // if (password) {
+    //   const salt = await bcrypt.genSalt(10);
+    //   student.password = await bcrypt.hash(password, salt);
+    // }
+    if (role) student.role = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
     if (isActive) student.isActive = isActive;
     if (classId) {
       const classData = await Class.findById(classId);

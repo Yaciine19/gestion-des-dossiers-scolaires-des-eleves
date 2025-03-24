@@ -7,3 +7,5 @@ export const SIGN_OUT = "sign-out";
 export const USER = "user";
 
 export const STUDENTS = "students";
+
+export const TEACHERS = "teachers";

@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function Input({
+  id,
   placeholder,
   name,
   value,
@@ -16,7 +17,7 @@ export default function Input({
           error ? "border-red-500 text-red-500 bg-red-50" : "text-slate-500"
         } w-full focus:border-primary`}
         placeholder={placeholder}
-        id={name}
+        id={id}
         name={name}
         value={value}
         type={type}

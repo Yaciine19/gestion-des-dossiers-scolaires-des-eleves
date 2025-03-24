@@ -5,6 +5,7 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { PiStudentBold } from "react-icons/pi";
+import { FaChalkboardTeacher } from "react-icons/fa";
 import axios from "axios";
 import { BaseURL, SIGN_OUT } from "../../API/API";
 import Cookie from "cookie-universal";
@@ -24,6 +25,11 @@ const NavItems = [
     icon: <PiStudentBold />,
     to: "/dashboard/students",
     navigate: "Students",
+  },
+  {
+    icon: <FaChalkboardTeacher />,
+    to: "/dashboard/teachers",
+    navigate: "Teachers",
   },
 ];
 
