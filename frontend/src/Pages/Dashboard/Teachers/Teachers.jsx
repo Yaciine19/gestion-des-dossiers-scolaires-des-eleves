@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
 import { TEACHERS } from "../../../API/API";
+import { Link } from "react-router";
+import { TiUserAdd } from "react-icons/ti";
 
 export default function Teachers() {
   const [teachers, setTeachers] = useState([]);
@@ -59,12 +61,21 @@ export default function Teachers() {
         Teachers Page
       </h1>
 
-      <Table
-        header={header}
-        data={teachers}
-        handleDelete={handleDelete}
-        isLoading={isLoading}
-      />
+      <div className="flex flex-col">
+        <Link
+          to="add"
+          className="w-[90%] self-end mb-5 flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
+        >
+          Add Teacher <TiUserAdd className="text-2xl" />
+        </Link>
+
+        <Table
+          header={header}
+          data={teachers}
+          handleDelete={handleDelete}
+          isLoading={isLoading}
+        />
+      </div>
     </>
   );
 }

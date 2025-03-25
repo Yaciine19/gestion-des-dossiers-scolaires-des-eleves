@@ -13,6 +13,8 @@ import Students from "./Pages/Dashboard/Students/Students";
 import StudentDetail from "./Pages/Dashboard/Students/Student";
 import Teachers from "./Pages/Dashboard/Teachers/Teachers";
 import EditStudent from "./Pages/Dashboard/Students/EditStudent";
+import AddStudent from "./Pages/Dashboard/Students/AddStudent";
+import Teacher from "./Pages/Dashboard/Teachers/Teacher";
 
 export default function App() {
   return (
@@ -35,7 +37,11 @@ export default function App() {
             <Route path="students" element={<Students />} />
             <Route path="students/detail/:id" element={<StudentDetail />} />
             <Route path="students/edit/:id" element={<EditStudent />} />
+            <Route path="students/add" element={<AddStudent />} />
+
+            {/* Teachers */}
             <Route path="teachers" element={<Teachers />} />
+            <Route path="teachers/detail/:id" element={<Teacher />} />
           </Route>
         </Route>
 

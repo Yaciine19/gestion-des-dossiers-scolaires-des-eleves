@@ -45,6 +45,7 @@ export const createStudent = async (req, res, next) => {
       lastName,
       email,
       password,
+      isActive,
       role,
       classId,
       registrationNumber,
@@ -60,6 +61,8 @@ export const createStudent = async (req, res, next) => {
       email,
       password: hashedPassword,
       role,
+      isActive,
+      status: isActive ? "active" : "inactive",
       registrationNumber,
       classId: classId || null,
     });
@@ -104,21 +107,38 @@ export const updateStudent = async (req, res, next) => {
     //   student.password = await bcrypt.hash(password, salt);
     // }
     if (role) student.role = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
-    if (isActive) student.isActive = isActive;
+    student.isActive = isActive;
+    student.status = isActive ? "active" : "inactive"
     if (classId) {
-      const classData = await Class.findById(classId);
-      if (!classData) {
+      const newClass = await Class.findById(classId);
+      if (!newClass) {
         return res
           .status(404)
           .json({ success: false, message: "Class not found" });
       }
+    
+      // التحقق مما إذا كان الطالب لديه صف سابق
+      if (student.classId) {
+        const oldClass = await Class.findById(student.classId);
+        if (oldClass) {
+          // إزالة الطالب من الصف القديم
+          oldClass.students = oldClass.students.filter(
+            (id) => id.toString() !== student._id.toString()
+          );
+          await oldClass.save();
+        }
+      }
+    
+      // تحديث الصف الجديد للطالب
       student.classId = classId;
-
-      if (!classData.students.includes(student._id)) {
-        classData.students.push(student._id);
-        await classData.save();
+    
+      // إضافة الطالب إلى الصف الجديد إذا لم يكن مضافًا بالفعل
+      if (!newClass.students.includes(student._id)) {
+        newClass.students.push(student._id);
+        await newClass.save();
       }
     }
+    
     if (registrationNumber) student.registrationNumber = registrationNumber;
 
     await student.save();

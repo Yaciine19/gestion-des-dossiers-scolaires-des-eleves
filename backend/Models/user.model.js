@@ -87,25 +87,6 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-// userSchema.pre("remove", async function (next) {
-//   if (this.role === "Student") {
-//     await Class.updateMany(
-//       { students: this._id },
-//       { $pull: { students: this._id } }
-//     );
-//     await Bulletin.deleteMany({ studentId: this._id });
-//   }
-
-//   if (this.role === "Teacher") {
-//     await Subject.updateMany(
-//       { teacher: this._id },
-//       { $unset: { teacher: "" } }
-//     );
-//   }
-
-//   next();
-// });
-
 
 userSchema.pre("findOneAndDelete", async function (next) {
   const user = await this.model.findOne(this.getFilter());
