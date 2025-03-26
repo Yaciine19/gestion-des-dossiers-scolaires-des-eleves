@@ -11,3 +11,5 @@ export const STUDENTS = "students";
 export const TEACHERS = "teachers";
 
 export const CLASSES = "classes";
+
+export const SUBJECTS = "subjects";

@@ -15,6 +15,7 @@ import Teachers from "./Pages/Dashboard/Teachers/Teachers";
 import EditStudent from "./Pages/Dashboard/Students/EditStudent";
 import AddStudent from "./Pages/Dashboard/Students/AddStudent";
 import Teacher from "./Pages/Dashboard/Teachers/Teacher";
+import AddTeacher from "./Pages/Dashboard/Teachers/AddTeacher";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
             {/* Teachers */}
             <Route path="teachers" element={<Teachers />} />
             <Route path="teachers/detail/:id" element={<Teacher />} />
+            <Route path="teachers/add" element={<AddTeacher />} />
           </Route>
         </Route>
 

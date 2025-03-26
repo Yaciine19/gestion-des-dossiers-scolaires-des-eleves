@@ -10,7 +10,7 @@ export default function AddStudent() {
         lastName: "",
         email: "",
         password: "",
-        role: "",
+        role: "Student",
         isActive: false,
         classId: "",
         registrationNumber: "",
