@@ -16,6 +16,7 @@ import EditStudent from "./Pages/Dashboard/Students/EditStudent";
 import AddStudent from "./Pages/Dashboard/Students/AddStudent";
 import Teacher from "./Pages/Dashboard/Teachers/Teacher";
 import AddTeacher from "./Pages/Dashboard/Teachers/AddTeacher";
+import EditTeacher from "./Pages/Dashboard/Teachers/EditTeacher";
 
 export default function App() {
   return (
@@ -35,6 +36,8 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
+
+            {/* Students */}
             <Route path="students" element={<Students />} />
             <Route path="students/detail/:id" element={<StudentDetail />} />
             <Route path="students/edit/:id" element={<EditStudent />} />
@@ -43,6 +46,7 @@ export default function App() {
             {/* Teachers */}
             <Route path="teachers" element={<Teachers />} />
             <Route path="teachers/detail/:id" element={<Teacher />} />
+            <Route path="teachers/edit/:id" element={<EditTeacher />} />
             <Route path="teachers/add" element={<AddTeacher />} />
           </Route>
         </Route>

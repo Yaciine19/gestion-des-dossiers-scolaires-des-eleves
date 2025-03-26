@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Axios } from "../../../API/axios";
 import { CLASSES, STUDENTS } from "../../../API/API";
 import Input from "../../../Components/Input";
 import { MdAssignmentAdd } from "react-icons/md";
+import Loading from "../../../Components/Loading";
 
 export default function EditStudent() {
   const [form, setForm] = useState({
@@ -16,11 +17,12 @@ export default function EditStudent() {
     registrationNumber: "",
   });
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [classes, setClasses] = useState([]);
   const [showClasses, setShowClasses] = useState(false);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   // Fetch Student
   useEffect(() => {
@@ -51,11 +53,21 @@ export default function EditStudent() {
     fetchClasses();
   }, []);
 
+  // Update Student
   async function handleOnSubmit(e) {
     e.preventDefault();
+
     try {
       await Axios.put(`users/${STUDENTS}/${id}`, form);
-      setIsSuccess(true);
+
+      navigate("/dashboard/students", {
+        state: {
+          successMessage: {
+            title: "Student Updated successfully!",
+            message: "The student's data has been successfully Updated.",
+          },
+        },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -69,16 +81,6 @@ export default function EditStudent() {
     const isFormValid = Object.values(form).every((value) => value !== "");
     setIsDisabled(!isFormValid);
   }, [form]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      const timer = setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isSuccess]);
 
   const handleOnClick = () => {
     setShowClasses(true);
@@ -257,28 +259,6 @@ export default function EditStudent() {
             >
               Save
             </button>
-            <div
-              className={`fixed w-[80%] md:w-auto bottom-5 right-1/2 translate-x-1/2 md:right-5 md:translate-x-0 z-50 flex items-center font-poppins p-4 text-sm 
-                 text-green-600 border border-green-300 rounded-lg bg-green-50
-                transition-opacity duration-500 ease-in-out ${
-                  isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"
-                }`}
-              role="alert"
-            >
-              <svg
-                className="shrink-0 inline w-4 h-4 me-3"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-              </svg>
-              <div>
-                <span className="font-medium">Update Successful!</span> The
-                student's data has been successfully updated.
-              </div>
-            </div>
           </form>
         </div>
       </div>

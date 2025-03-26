@@ -10,6 +10,8 @@ export default function Students() {
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
   const location = useLocation();
 
@@ -18,6 +20,11 @@ export default function Students() {
   useEffect(()=> {
     if(successMessage) {
       setIsSuccess(true);
+      setTitle(successMessage.title);
+      setMessage(successMessage.message);
+
+      // إعادة تعيين `location.state` لمنع التكرار
+      window.history.replaceState({}, "");
       
       const timer = setTimeout(() => {
         setIsSuccess(false);
@@ -55,7 +62,7 @@ export default function Students() {
   ];
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fetchStudents() {
       setIsLoading(true);
       try {
         const res = await Axios.get(`/users/${STUDENTS}`);
@@ -66,7 +73,7 @@ export default function Students() {
         console.log(error);
       }
     }
-    fetchUsers();
+    fetchStudents();
   }, []);
 
   const handleDelete = async (id) => {
@@ -100,8 +107,8 @@ export default function Students() {
 
       {successMessage && (
         <SuccessAlert
-          title={successMessage}
-          message={"The student's data has been successfully added."}
+          title={title}
+          message={message}
           classValue={
             isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"
           }

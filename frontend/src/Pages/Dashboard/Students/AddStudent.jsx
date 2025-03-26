@@ -3,7 +3,6 @@ import { Axios } from "../../../API/axios";
 import { CLASSES, STUDENTS } from "../../../API/API";
 import Input from "../../../Components/Input";
 import { MdAssignmentAdd } from "react-icons/md";
-import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 import DangerAlert from "../../../Components/Dashboard/DangerAlert";
 import { useNavigate } from "react-router";
 
@@ -46,11 +45,20 @@ export default function AddStudent() {
     try {
       await Axios.post(`users/${STUDENTS}`, form);
       setIsLoading(false);
-      
-      // بش تبان بعد loading مشي في نفس الوقت
+
+      // تستنى شوي حتى تخلص loading بش تبدا هاذي
       setTimeout(() => {
-        navigate('/dashboard/students', {state: {successMessage: "Student added successfully!"}});
+        navigate("/dashboard/students", {
+          state: {
+            successMessage: {
+              title: "Student added successfully!",
+              message:
+                "The student has been successfully added to the database.",
+            },
+          },
+        });
       }, 100);
+      
     } catch (err) {
       setIsLoading(false);
       setTimeout(() => {
@@ -94,213 +102,210 @@ export default function AddStudent() {
       </h1>
       <div className="w-full mb-10 border border-primary rounded-lg">
         <div className="rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden">
-          {isLoading ? <isLoading /> : <form onSubmit={handleOnSubmit} className="w-full mt-8 space-y-6">
-            <div className="flex flex-col md:flex-row gap-3 md:gap-5">
-              <div className="flex-1">
-                <label
-                  htmlFor="firstName"
-                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
-                >
-                  First name :
-                </label>
-                <Input
-                  id="firstName"
-                  value={form.firstName}
-                  placeholder={"First name"}
-                  name={"firstName"}
-                  handleChangeForm={handleChangeForm}
-                />
-              </div>
-              <div className="flex-1">
-                <label
-                  htmlFor="lastName"
-                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
-                >
-                  Last name :
-                </label>
-                <Input
-                  id="lastName"
-                  value={form.lastName}
-                  placeholder={"Last name"}
-                  name={"lastName"}
-                  handleChangeForm={handleChangeForm}
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
-              >
-                Email :
-              </label>
-              <Input
-                id="email"
-                value={form.email}
-                placeholder={"Email"}
-                name={"email"}
-                type="email"
-                handleChangeForm={handleChangeForm}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="password"
-                className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
-              >
-                Password :
-              </label>
-              <Input
-                id="password"
-                value={form.password}
-                placeholder={"Password"}
-                name={"password"}
-                type="password"
-                handleChangeForm={handleChangeForm}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="role"
-                className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
-              >
-                Role :
-              </label>
-              <select
-                name="role"
-                value={form.role}
-                onChange={handleChangeForm}
-                className="bg-gray-50 border-2 border-gray-300 text-slate-500 font-poppins  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              >
-                <option disabled value="">
-                  Select Role
-                </option>
-                <option value="Student">Student</option>
-              </select>
-            </div>
-
-            <div className=" flex gap-5 border-gray-200">
-              <p className="text-primary font-poppins md:text-lg font-medium ml-1 ">
-                Account State :
-              </p>
-              <div className="flex gap-5">
-                <p
-                  className={`capitalize font-poppins font-medium md:text-lg ${
-                    form.isActive ? "text-green-500" : "text-red-500"
-                  } `}
-                >
-                  {form.isActive ? "active" : "inactive"}
-                </p>
-                <label className="inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    name="isActive"
-                    checked={form.isActive}
-                    onChange={(e) =>
-                      setForm({ ...form, isActive: e.target.checked })
-                    }
-                    className="sr-only peer"
+          {isLoading ? (
+            <isLoading />
+          ) : (
+            <form onSubmit={handleOnSubmit} className="w-full mt-8 space-y-6">
+              <div className="flex flex-col md:flex-row gap-3 md:gap-5">
+                <div className="flex-1">
+                  <label
+                    htmlFor="firstName"
+                    className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                  >
+                    First name :
+                  </label>
+                  <Input
+                    id="firstName"
+                    value={form.firstName}
+                    placeholder={"First name"}
+                    name={"firstName"}
+                    handleChangeForm={handleChangeForm}
                   />
-                  <div className="relative w-11 h-6  peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
-                </label>
+                </div>
+                <div className="flex-1">
+                  <label
+                    htmlFor="lastName"
+                    className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                  >
+                    Last name :
+                  </label>
+                  <Input
+                    id="lastName"
+                    value={form.lastName}
+                    placeholder={"Last name"}
+                    name={"lastName"}
+                    handleChangeForm={handleChangeForm}
+                  />
+                </div>
               </div>
-            </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                >
+                  Email :
+                </label>
+                <Input
+                  id="email"
+                  value={form.email}
+                  placeholder={"Email"}
+                  name={"email"}
+                  type="email"
+                  handleChangeForm={handleChangeForm}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="password"
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                >
+                  Password :
+                </label>
+                <Input
+                  id="password"
+                  value={form.password}
+                  placeholder={"Password"}
+                  name={"password"}
+                  type="password"
+                  handleChangeForm={handleChangeForm}
+                />
+              </div>
 
-            <div
-              className={`${
-                !form.classId && !showClasses && "flex gap-3 items-center"
-              }`}
-            >
-              <label
-                htmlFor="classId"
-                className={`text-primary font-poppins md:text-lg font-medium block ${
-                  form.classId && showClasses && "mb-2"
-                } ml-1`}
-              >
-                Class :
-              </label>
-              {form.classId || showClasses ? (
+              <div>
+                <label
+                  htmlFor="role"
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                >
+                  Role :
+                </label>
                 <select
-                  name="classId"
-                  value={getCurrentClassId()}
+                  name="role"
+                  value={form.role}
                   onChange={handleChangeForm}
-                  className="bg-gray-50 border-2 border-gray-300 text-slate-500 font-poppins rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  className="bg-gray-50 border-2 border-gray-300 text-slate-500 font-poppins  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 >
                   <option disabled value="">
-                    Select class
+                    Select Role
                   </option>
-                  {classes.map((classData) => (
-                    <option key={classData._id} value={classData._id}>
-                      {`${classData.name} - ${classData.level}`}
-                    </option>
-                  ))}
+                  <option value="Student">Student</option>
                 </select>
-              ) : (
-                <p className="capitalize flex gap-3 items-center font-poppins font-medium md:text-lg text-red-500">
-                  No class assigned
-                  <MdAssignmentAdd
-                    className="text-xl text-primary cursor-pointer"
-                    onClick={handleOnClick}
-                  />
+              </div>
+
+              <div className=" flex gap-5 border-gray-200">
+                <p className="text-primary font-poppins md:text-lg font-medium ml-1 ">
+                  Account State :
                 </p>
-              )}
-            </div>
+                <div className="flex gap-5">
+                  <p
+                    className={`capitalize font-poppins font-medium md:text-lg ${
+                      form.isActive ? "text-green-500" : "text-red-500"
+                    } `}
+                  >
+                    {form.isActive ? "active" : "inactive"}
+                  </p>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      name="isActive"
+                      checked={form.isActive}
+                      onChange={(e) =>
+                        setForm({ ...form, isActive: e.target.checked })
+                      }
+                      className="sr-only peer"
+                    />
+                    <div className="relative w-11 h-6  peer-focus:outline-none rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                  </label>
+                </div>
+              </div>
 
-            <div>
-              <label
-                htmlFor="registrationNumber"
-                className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+              <div
+                className={`${
+                  !form.classId && !showClasses && "flex gap-3 items-center"
+                }`}
               >
-                Registration Number :
-              </label>
-              <Input
-                id="registrationNumber"
-                value={form.registrationNumber}
-                placeholder={"Registration Number"}
-                name={"registrationNumber"}
-                handleChangeForm={handleChangeForm}
+                <label
+                  htmlFor="classId"
+                  className={`text-primary font-poppins md:text-lg font-medium block ${
+                    form.classId && showClasses && "mb-2"
+                  } ml-1`}
+                >
+                  Class :
+                </label>
+                {form.classId || showClasses ? (
+                  <select
+                    name="classId"
+                    value={getCurrentClassId()}
+                    onChange={handleChangeForm}
+                    className="bg-gray-50 border-2 border-gray-300 text-slate-500 font-poppins rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  >
+                    <option disabled value="">
+                      Select class
+                    </option>
+                    {classes.map((classData) => (
+                      <option key={classData._id} value={classData._id}>
+                        {`${classData.name} - ${classData.level}`}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p className="capitalize flex gap-3 items-center font-poppins font-medium md:text-lg text-red-500">
+                    No class assigned
+                    <MdAssignmentAdd
+                      className="text-xl text-primary cursor-pointer"
+                      onClick={handleOnClick}
+                    />
+                  </p>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="registrationNumber"
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
+                >
+                  Registration Number :
+                </label>
+                <Input
+                  id="registrationNumber"
+                  value={form.registrationNumber}
+                  placeholder={"Registration Number"}
+                  name={"registrationNumber"}
+                  handleChangeForm={handleChangeForm}
+                />
+              </div>
+
+              <button
+                className="w-full justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                id="login"
+                name="login"
+                type="submit"
+                disabled={isDisabled}
+              >
+                Save
+              </button>
+
+              <DangerAlert
+                title={"Be carefull"}
+                message={
+                  "The student's email and registration number must be unique."
+                }
+                classValue={
+                  error.emailError
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }
               />
-            </div>
-
-            <button
-              className="w-full justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              id="login"
-              name="login"
-              type="submit"
-              disabled={isDisabled}
-            >
-              Save
-            </button>
-            {/* <SuccessAlert
-              title={"Add Successful!"}
-              message={"The student's data has been successfully Add."}
-              classValue={
-                isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"
-              }
-            /> */}
-
-            <DangerAlert
-              title={"Be carefull"}
-              message={
-                "The student's email and registration number must be unique."
-              }
-              classValue={
-                error.emailError
-                  ? "opacity-100"
-                  : "opacity-0 pointer-events-none"
-              }
-            />
-            <DangerAlert
-              title={"Network error"}
-              message={"Please, try later."}
-              classValue={
-                error.serverError
-                  ? "opacity-100"
-                  : "opacity-0 pointer-events-none"
-              }
-            />
-          </form>}
+              <DangerAlert
+                title={"Network error"}
+                message={"Please, try later."}
+                classValue={
+                  error.serverError
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }
+              />
+            </form>
+          )}
         </div>
       </div>
     </>

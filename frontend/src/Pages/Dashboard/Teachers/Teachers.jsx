@@ -10,14 +10,21 @@ export default function Teachers() {
   const [teachers, setTeachers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
   const location = useLocation();
 
   const successMessage = location.state?.successMessage || null;
 
-  useEffect(() => {
+  useEffect(()=> {
     if(successMessage) {
       setIsSuccess(true);
+      setTitle(successMessage.title);
+      setMessage(successMessage.message);
+
+      // إعادة تعيين `location.state` لمنع التكرار
+      window.history.replaceState({}, "");
 
       const timer = setTimeout(() => {
         setIsSuccess(false);
@@ -25,7 +32,7 @@ export default function Teachers() {
 
       return () => clearTimeout(timer);
     }
-  }, [successMessage])
+  },[successMessage])
 
   const header = [
     {
@@ -51,7 +58,7 @@ export default function Teachers() {
   ];
 
   useEffect(() => {
-    async function fetchUsers() {
+    async function fetchTeachers() {
       setIsLoading(true);
       try {
         const res = await Axios.get(`/users/${TEACHERS}`);
@@ -62,7 +69,7 @@ export default function Teachers() {
         console.log(error);
       }
     }
-    fetchUsers();
+    fetchTeachers();
   }, []);
 
   const handleDelete = async (id) => {
@@ -95,8 +102,8 @@ export default function Teachers() {
         />
       </div>
       <SuccessAlert
-        title={successMessage}
-        message={"The Teacher's data has been successfully created."}
+        title={title}
+        message={message}
         classValue={isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"}
       />
     </>
