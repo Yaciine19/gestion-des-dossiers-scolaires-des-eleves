@@ -46,7 +46,6 @@ const userSchema = mongoose.Schema(
     registrationNumber: {
       type: String,
       unique: true,
-      sparse: true, // Only for Students
       trim: true,
     },
     classId: {

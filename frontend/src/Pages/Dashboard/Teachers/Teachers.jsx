@@ -2,12 +2,30 @@ import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
 import { TEACHERS } from "../../../API/API";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { TiUserAdd } from "react-icons/ti";
+import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 
 export default function Teachers() {
   const [teachers, setTeachers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const location = useLocation();
+
+  const successMessage = location.state?.successMessage || null;
+
+  useEffect(() => {
+    if(successMessage) {
+      setIsSuccess(true);
+
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage])
 
   const header = [
     {
@@ -76,6 +94,11 @@ export default function Teachers() {
           isLoading={isLoading}
         />
       </div>
+      <SuccessAlert
+        title={successMessage}
+        message={"The Teacher's data has been successfully created."}
+        classValue={isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"}
+      />
     </>
   );
 }

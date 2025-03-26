@@ -6,6 +6,7 @@ import { MdAssignmentAdd } from "react-icons/md";
 import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 import DangerAlert from "../../../Components/Dashboard/DangerAlert";
 import Loading from "../../../Components/Loading";
+import { useNavigate } from "react-router";
 
 export default function AddTeacher() {
   const [form, setForm] = useState({
@@ -18,7 +19,6 @@ export default function AddTeacher() {
     subject: "",
   });
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [classes, setClasses] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [showClasses, setShowClasses] = useState(false);
@@ -28,6 +28,7 @@ export default function AddTeacher() {
     serverError: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch Classes
   useEffect(() => {
@@ -62,8 +63,8 @@ export default function AddTeacher() {
       await Axios.post(`users/${TEACHERS}`, form);
       setIsLoading(false);
       setTimeout(() => {
-        setIsSuccess(true);
-      }, 200);
+        navigate('/dashboard/teachers', {state: {successMessage: "Teacher added successfully!"}});
+      }, 100);
     } catch (err) {
       setIsLoading(false);
       setTimeout(() => {
@@ -90,16 +91,6 @@ export default function AddTeacher() {
     const isFormValid = Object.values(form).every((value) => value !== "");
     setIsDisabled(!isFormValid);
   }, [form]);
-
-  useEffect(() => {
-    if (isSuccess) {
-      const timer = setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isSuccess]);
 
   const handleOnClickClass = () => {
     setShowClasses(true);
@@ -301,14 +292,6 @@ export default function AddTeacher() {
             >
               Save
             </button>
-
-            <SuccessAlert
-              title={"Created Successful!"}
-              message={"The Teacher's data has been successfully created."}
-              classValue={
-                isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"
-              }
-            />
 
             <DangerAlert
               title={"Be carful"}
