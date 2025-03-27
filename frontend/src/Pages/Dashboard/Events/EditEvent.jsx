@@ -77,7 +77,7 @@ export default function EditEvent() {
   return (
     <>
       <h1 className="text-2xl sm:text-5xl font-semibold font-poppins text-primary mb-10 sm:mb-20 mt-3 sm:mt-4 capitalize">
-        Add New Event
+        Edit Event
       </h1>
       <div className="w-full mb-10 border border-primary rounded-lg">
         <div className="rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden">
@@ -118,7 +118,7 @@ export default function EditEvent() {
 
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="date"
                   className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
                   Date:
@@ -134,7 +134,7 @@ export default function EditEvent() {
               </div>
               <div>
                 <label
-                  htmlFor="password"
+                  htmlFor="location"
                   className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
                   Location :
@@ -150,12 +150,13 @@ export default function EditEvent() {
 
               <div>
                 <label
-                  htmlFor="role"
+                  htmlFor="audience"
                   className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
                   Audience :
                 </label>
                 <select
+                id="audience"
                   name="audience"
                   value={form.audience}
                   onChange={handleChangeForm}

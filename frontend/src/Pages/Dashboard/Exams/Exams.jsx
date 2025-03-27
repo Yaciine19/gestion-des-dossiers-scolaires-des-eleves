@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
-import { EVENTS } from "../../../API/API";
+import { EVENTS, EXAMS } from "../../../API/API";
 import { Link, useLocation } from "react-router";
 import { RiAddCircleLine } from "react-icons/ri";
 import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 
-export default function Events() {
-  const [events, setEvents] = useState([]);
+export default function Exams() {
+  const [exams, setExams] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [title, setTitle] = useState("");
@@ -36,24 +36,24 @@ export default function Events() {
 
   const header = [
     {
-      key: "title",
-      name: "Title",
+      key: "subject",
+      name: "Subject",
     },
     {
-      key: "description",
-      name: "Description",
+      key: "class",
+      name: "Class",
     },
     {
       key: "date",
       name: "Date",
     },
     {
-      key: "location",
-      name: "Location",
+      key: "duration",
+      name: "Duration",
     },
     {
-      key: "audience",
-      name: "Audience",
+      key: "term",
+      name: "Term",
     },
   ];
 
@@ -61,8 +61,8 @@ export default function Events() {
     async function fetchEvents() {
       setIsLoading(true);
       try {
-        const res = await Axios.get(`/${EVENTS}`);
-        setEvents(res.data.data);
+        const res = await Axios.get(`/${EXAMS}`);
+        setExams(res.data.data);
         console.log(res.data.data);
         setIsLoading(false);
       } catch (error) {
@@ -74,8 +74,8 @@ export default function Events() {
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`/${EVENTS}/${id}`);
-      setEvents((prevEvents) => prevEvents.filter((event) => event._id !== id));
+      await Axios.delete(`/${EXAMS}/${id}`);
+      setExams((prevExams) => prevExams.filter((exam) => exam._id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +83,7 @@ export default function Events() {
   return (
     <>
       <h1 className="text-2xl sm:text-5xl font-semibold font-poppins text-primary mb-10 sm:mb-20 mt-3 sm:mt-4">
-        Events Page
+        Exams Page
       </h1>
 
       <div className="flex flex-col">
@@ -91,12 +91,12 @@ export default function Events() {
           to="add"
           className="w-[90%] self-end mb-5 flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
         >
-          Add Event <RiAddCircleLine className="text-2xl" />
+          Add Exams <RiAddCircleLine className="text-2xl" />
         </Link>
 
         <Table
           header={header}
-          data={events}
+          data={exams}
           handleDelete={handleDelete}
           isLoading={isLoading}
           notUsers={true}

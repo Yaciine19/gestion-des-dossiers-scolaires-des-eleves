@@ -53,14 +53,14 @@ export default function Table({
               item2.key === "description" ||
               item2.key === "location"
             ? stringSlice(item[item2.key], 20)
-            : item[item2.key]}
+            : item2.key === "class" ? `${item[item2.key]?.name} - ${item[item2.key]?.level}` : item2.key === "subject" ? `${item[item2.key]?.name}` : item[item2.key]}
         </td>
       ))}
       <td className="p-6 border-l border-[#0D47A1]">
         <div className="flex items-center justify-around w-full gap-3 ">
           <Link to={`detail/${item._id}`}>
             {notUsers ? (
-              <BiDetail className="text-gray-800 text-2xl" s />
+              <BiDetail className="text-gray-800 text-2xl"/>
             ) : (
               <BiSolidUserDetail className="text-gray-800 text-2xl" />
             )}

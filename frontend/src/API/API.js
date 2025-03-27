@@ -15,3 +15,5 @@ export const CLASSES = "classes";
 export const SUBJECTS = "subjects";
 
 export const EVENTS = "events";
+
+export const EXAMS = "exams";

@@ -21,6 +21,10 @@ import Events from "./Pages/Dashboard/Events/Events";
 import Event from "./Pages/Dashboard/Events/Event";
 import AddEvent from "./Pages/Dashboard/Events/AddEvent";
 import EditEvent from "./Pages/Dashboard/Events/EditEvent";
+import Exams from "./Pages/Dashboard/Exams/Exams";
+import Exam from "./Pages/Dashboard/Exams/Exam";
+import EditExam from "./Pages/Dashboard/Exams/EditExam";
+import AddExam from "./Pages/Dashboard/Exams/AddExam";
 
 export default function App() {
   return (
@@ -59,6 +63,11 @@ export default function App() {
             <Route path="events/edit/:id" element={<EditEvent />} />
             <Route path="events/add" element={<AddEvent />} />
             
+            {/* Exams */}
+            <Route path="exams" element={<Exams />} />
+            <Route path="exams/detail/:id" element={<Exam />} />
+            <Route path="exams/edit/:id" element={<EditExam />} />
+            <Route path="exams/add" element={<AddExam />} /> 
           </Route>
         </Route>
 

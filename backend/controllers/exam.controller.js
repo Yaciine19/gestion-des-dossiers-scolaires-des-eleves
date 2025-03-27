@@ -1,5 +1,5 @@
 import Exam from "../models/exam.modul.js";
-import Subject from "../Models/subject.model.js";
+import Subject from "../models/subject.model.js";
 
 export const getExams = async (req, res, next) => {
   try {
@@ -24,7 +24,7 @@ export const getExamDetails = async (req, res, next) => {
     const exam = await Exam.findById(id)
       .populate("subject", "name") 
       .populate("class", "name level")
-      .populate("createdBy", "firstName lastName");
+      .populate("createdBy", "firstName lastName role");
 
     if (!exam) {
       const error = new Error("Exam not found");
@@ -92,15 +92,16 @@ export const updateExam = async (req, res, next) => {
     const { id } = req.params;
     const { subject, class: classId, date, duration, term } = req.body;
 
-    const exam = await Exam.findById(id);
+    const exam = await Exam.findOne({_id: id});
 
     if (!exam) {
-      const error = new Error("Exam not found");
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({success: false, message: "Exam not found"});
+      // const error = new Error("Exam not found");
+      // error.statusCode = 404;
+      // throw error;
     }
 
-    if (subject) exam.title = subject;
+    if (subject) exam.subject = subject;
     if (classId) exam.class = classId;
     if (duration) exam.duration = duration;
     if (date) exam.date = date;
