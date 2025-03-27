@@ -17,7 +17,7 @@ export const getEventDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const event = await Event.findById(id).populate("createdBy", "firstName lastName");
+    const event = await Event.findById(id).populate("createdBy", "firstName lastName role");
 
     if (!event) {
       const error = new Error("Event not found");
@@ -42,7 +42,7 @@ export const CreateEvent = async (req, res, next) => {
     const event = await Event.findOne({ title });
 
     if (event) {
-      const error = new Error("Subject already exists");
+      const error = new Error("Event already exists");
       error.statusCode = 409;
       throw error;
     }

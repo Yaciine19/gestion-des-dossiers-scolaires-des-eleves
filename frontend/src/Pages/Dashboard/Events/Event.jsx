@@ -98,6 +98,16 @@ export default function Event() {
                 )
               }
             />
+            <StudentDetailItem
+              label="Created By"
+              value={
+                event === "" ? (
+                  <LineSkeleton width="w-[200px]" />
+                ) : (
+                  `${event.createdBy?.firstName} ${event.createdBy?.lastName} (${event.createdBy?.role})`
+                )
+              }
+            />
           </dl>
         </div>
       </div>
