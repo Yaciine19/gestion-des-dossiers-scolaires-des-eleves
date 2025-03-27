@@ -75,9 +75,10 @@ export const updateEvent = async (req, res, next) => {
     const event = await Event.findById(id);
 
     if (!event) {
-      const error = new Error("Event not found");
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({success: false, message: 'Event not found'})
+      // const error = new Error("Event not found");
+      // error.statusCode = 404;
+      // throw error;
     }
 
     if (title) event.title = title;

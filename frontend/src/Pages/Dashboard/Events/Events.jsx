@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
-import { EVENTS, TEACHERS } from "../../../API/API";
+import { EVENTS } from "../../../API/API";
 import { Link, useLocation } from "react-router";
-import { TiUserAdd } from "react-icons/ti";
+import { RiAddCircleLine } from "react-icons/ri";
 import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 
 export default function Events() {
@@ -91,7 +91,7 @@ export default function Events() {
           to="add"
           className="w-[90%] self-end mb-5 flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
         >
-          Add Event <TiUserAdd className="text-2xl" />
+          Add Event <RiAddCircleLine className="text-2xl" />
         </Link>
 
         <Table
@@ -99,7 +99,7 @@ export default function Events() {
           data={events}
           handleDelete={handleDelete}
           isLoading={isLoading}
-          tableOf={"events"}
+          tableOf={true}
         />
       </div>
       <SuccessAlert

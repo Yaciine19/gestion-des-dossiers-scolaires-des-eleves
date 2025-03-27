@@ -14,7 +14,7 @@ export default function Table({
   user,
   handleDelete,
   isLoading,
-  tableOf,
+  notUsers = false,
 }) {
   const currentUser = user || {
     _id: "",
@@ -59,7 +59,7 @@ export default function Table({
       <td className="p-6 border-l border-[#0D47A1]">
         <div className="flex items-center justify-around w-full gap-3 ">
           <Link to={`detail/${item._id}`}>
-            {tableOf ? (
+            {notUsers ? (
               <BiDetail className="text-gray-800 text-2xl" s />
             ) : (
               <BiSolidUserDetail className="text-gray-800 text-2xl" />
@@ -69,7 +69,7 @@ export default function Table({
           <Link to={`edit/${item._id}`}>
             <FaEdit className="text-primary text-2xl" />
           </Link>
-          
+
           {currentUser._id !== item._id && (
             <MdDelete
               onClick={() => handleDelete(item._id)}

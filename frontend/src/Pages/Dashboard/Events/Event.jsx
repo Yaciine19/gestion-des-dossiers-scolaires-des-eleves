@@ -33,7 +33,11 @@ export default function Event() {
       <div className="bg-white overflow-hidden shadow rounded-lg border border-primary font-poppins mb-10">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-xl sm:text-4xl font-medium text-primary capitalize">
-            {teacher === "" ? <LineSkeleton width={"300px"} /> : `${fullName} Profile`}
+            {event === "" ? (
+              <LineSkeleton width={"300px"} height={"h-3"} />
+            ) : (
+              `${event.title} event`
+            )}
           </h3>
           <p className="mt-3 max-w-2xl text-sm sm:text-base text-gray-500">
             This is some information about the event.
@@ -42,88 +46,55 @@ export default function Event() {
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
           <dl className="sm:divide-y sm:divide-gray-200">
             <StudentDetailItem
-              label="Full name"
+              label="Title"
               value={
-                teacher === "" ? (
+                event === "" ? (
                   <LineSkeleton width="w-[200px]" />
                 ) : (
-                  `${fullName}`
+                  `${event.title}`
                 )
               }
             />
             <StudentDetailItem
-              label="Email address"
+              label="Description"
               value={
-                teacher === "" ? (
+                event === "" ? (
                   <LineSkeleton width="w-[300px]" />
                 ) : (
-                  `${teacher.email}`
+                  `${event.description}`
                 )
               }
             />
 
             <StudentDetailItem
-              label="Role"
+              label="Date"
               value={
-                teacher === "" ? (
+                event === "" ? (
                   <LineSkeleton width="w-[150px]" />
                 ) : (
-                  `${teacher.role}`
+                  formatDate(event.date)
                 )
               }
             />
+            
             <StudentDetailItem
-              label="Account Status"
+              label="Location"
               value={
-                teacher === "" ? (
-                  <LineSkeleton width="w-[100px]" />
-                ) : (
-                  `${teacher.status}`
-                )
-              }
-              valueClass={teacher.isActive ? "text-green-400" : "text-red-500"}
-            />
-            <StudentDetailItem
-              label="Subject"
-              value={
-                teacher === "" ? (
-                  <LineSkeleton width="w-[100px]" />
-                ) : teacher.subject ? (
-                  `${teacher.subject?.name}`
-                ) : "No Subject has been assigned to this teacher yet."
-              }
-              valueClass={teacher.subject ? "text-gray-800" : "text-red-500"}
-            />
-            <StudentDetailItem
-              label="Class"
-              value={
-                teacher === "" ? (
+                event === "" ? (
                   <LineSkeleton width="w-[300px]" />
-                ) : teacher.classId ? (
-                  `${teacher.classId?.name} - ${teacher.classId?.level}`
                 ) : (
-                  "No Class has been assigned to this teacher yet."
+                  `${event.location}`
                 )
               }
-              valueClass={teacher.classId ? "text-gray-800" : "text-red-500"}
             />
+            
             <StudentDetailItem
               label="Created at"
               value={
-                teacher === "" ? (
+                event === "" ? (
                   <LineSkeleton width="w-[200px]" />
                 ) : (
-                  `${formatDate(teacher.createdAt)}`
-                )
-              }
-            />
-            <StudentDetailItem
-              label="Updated at"
-              value={
-                teacher === "" ? (
-                  <LineSkeleton width="w-[200px]" />
-                ) : (
-                  `${formatDate(teacher.updatedAt)}`
+                  `${formatDate(event.createdAt)}`
                 )
               }
             />

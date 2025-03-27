@@ -18,6 +18,7 @@ import Teacher from "./Pages/Dashboard/Teachers/Teacher";
 import AddTeacher from "./Pages/Dashboard/Teachers/AddTeacher";
 import EditTeacher from "./Pages/Dashboard/Teachers/EditTeacher";
 import Events from "./Pages/Dashboard/Events/Events";
+import Event from "./Pages/Dashboard/Events/Event";
 
 export default function App() {
   return (
@@ -52,6 +53,8 @@ export default function App() {
 
             {/* Events */}
             <Route path="events" element={<Events />} />
+            <Route path="events/detail/:id" element={<Event />} />
+            
           </Route>
         </Route>
 
