@@ -19,9 +19,9 @@ export const getStudents = async (req, res, next) => {
 export const getStudentDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const student = await User.findOne({ _id: id, role: "Student" }).select(
-      "-password -subject"
-    ).populate("classId", "name level");
+    const student = await User.findOne({ _id: id, role: "Student" })
+      .select("-password -subject")
+      .populate("classId", "name level");
 
     if (!student) {
       const error = new Error("student not found");
@@ -69,6 +69,14 @@ export const createStudent = async (req, res, next) => {
 
     await newStudent.save();
 
+    if (classId) {
+      await Class.findByIdAndUpdate(
+        classId,
+        { $push: { students: newStudent._id } },
+        { new: true }
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: "Student created successfuly",
@@ -107,39 +115,31 @@ export const updateStudent = async (req, res, next) => {
     //   student.password = await bcrypt.hash(password, salt);
     // }
     if (role) student.role = role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+
     student.isActive = isActive;
-    student.status = isActive ? "active" : "inactive"
-    if (classId) {
-      const newClass = await Class.findById(classId);
-      if (!newClass) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Class not found" });
-      }
-    
-      // التحقق مما إذا كان الطالب لديه صف سابق
-      if (student.classId) {
-        const oldClass = await Class.findById(student.classId);
-        if (oldClass) {
-          // إزالة الطالب من الصف القديم
-          oldClass.students = oldClass.students.filter(
-            (id) => id.toString() !== student._id.toString()
-          );
-          await oldClass.save();
-        }
-      }
-    
-      // تحديث الصف الجديد للطالب
-      student.classId = classId;
-    
-      // إضافة الطالب إلى الصف الجديد إذا لم يكن مضافًا بالفعل
-      if (!newClass.students.includes(student._id)) {
-        newClass.students.push(student._id);
-        await newClass.save();
-      }
-    }
+    student.status = isActive ? "active" : "inactive";
     
     if (registrationNumber) student.registrationNumber = registrationNumber;
+    
+    if (classId && classId !== student.classId?.toString()) {
+      const newClass = await Class.findById(classId);
+      if (!newClass) return res.status(404).json({ message: "Class not found" });
+
+      // إزالة الطالب من الصف القديم إذا كان لديه صف
+      if (student.classId) {
+        await Class.findByIdAndUpdate(student.classId, {
+          $pull: { students: student._id },
+        });
+      }
+
+      // تعيين الصف الجديد للطالب
+      student.classId = classId;
+
+      // إضافة الطالب إلى الصف الجديد إذا لم يكن موجودًا
+      await Class.findByIdAndUpdate(classId, {
+        $addToSet: { students: student._id },
+      });
+    }
 
     await student.save();
 
@@ -161,7 +161,7 @@ export const deleteStudent = async (req, res, next) => {
 
     if (!student) return res.status(404).json({ message: "Student not found" });
 
-    await User.findOneAndDelete({_id: id, role: "Student"});
+    await User.findOneAndDelete({ _id: id, role: "Student" });
 
     res.status(200).json({
       success: true,
@@ -222,17 +222,22 @@ export const activateStudent = async (req, res, next) => {
   try {
     const { studentId } = req.params;
 
-    const student = await User.findOne({_id:studentId, role: "Student"});
+    const student = await User.findOne({ _id: studentId, role: "Student" });
 
     if (!student) {
-      return res.status(404).json({ success: false, message: "Student not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Student not found" });
     }
 
     student.isActive = true;
     student.status = "active";
     await student.save();
 
-    res.json({ success: true, message: "Student account activated successfully" });
+    res.json({
+      success: true,
+      message: "Student account activated successfully",
+    });
   } catch (error) {
     next(error);
   }

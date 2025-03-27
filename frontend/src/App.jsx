@@ -17,6 +17,7 @@ import AddStudent from "./Pages/Dashboard/Students/AddStudent";
 import Teacher from "./Pages/Dashboard/Teachers/Teacher";
 import AddTeacher from "./Pages/Dashboard/Teachers/AddTeacher";
 import EditTeacher from "./Pages/Dashboard/Teachers/EditTeacher";
+import Events from "./Pages/Dashboard/Events/Events";
 
 export default function App() {
   return (
@@ -48,6 +49,9 @@ export default function App() {
             <Route path="teachers/detail/:id" element={<Teacher />} />
             <Route path="teachers/edit/:id" element={<EditTeacher />} />
             <Route path="teachers/add" element={<AddTeacher />} />
+
+            {/* Events */}
+            <Route path="events" element={<Events />} />
           </Route>
         </Route>
 

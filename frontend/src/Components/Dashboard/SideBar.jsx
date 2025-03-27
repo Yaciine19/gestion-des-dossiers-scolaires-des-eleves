@@ -6,6 +6,7 @@ import { FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { PiStudentBold } from "react-icons/pi";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { MdEventAvailable } from "react-icons/md";
 import axios from "axios";
 import { BaseURL, SIGN_OUT } from "../../API/API";
 import Cookie from "cookie-universal";
@@ -30,6 +31,11 @@ const NavItems = [
     icon: <FaChalkboardTeacher />,
     to: "/dashboard/teachers",
     navigate: "Teachers",
+  },
+  {
+    icon: <MdEventAvailable />,
+    to: "/dashboard/events",
+    navigate: "Events",
   },
 ];
 

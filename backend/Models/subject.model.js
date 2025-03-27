@@ -26,18 +26,18 @@ const subjectSchema = mongoose.Schema(
 );
 
 subjectSchema.pre("findOneAndDelete", async function (next) {
-    const subject = await this.model.findOne(this.getFilter());
-  
-    if(subject) {
-        await User.updateMany(
-            {
-              subject: subject._id,
-            },
-            {
-              $set: { subject: null },
-            }
-          );
-    }
+  const subject = await this.model.findOne(this.getFilter());
+
+  if (subject) {
+    await User.updateMany(
+      {
+        subject: subject._id,
+      },
+      {
+        $set: { subject: null },
+      }
+    );
+  }
   next();
 });
 

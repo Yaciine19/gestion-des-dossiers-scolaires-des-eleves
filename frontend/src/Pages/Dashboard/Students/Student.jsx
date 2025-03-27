@@ -34,7 +34,7 @@ export default function StudentDetail() {
       <div className="bg-white overflow-hidden shadow rounded-lg border border-primary font-poppins mb-10">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-xl sm:text-4xl font-medium text-primary capitalize">
-            {student === "" ? "Loading..." : `${fullName} Profile`}
+            {student === "" ? <LineSkeleton width={"w-[300px]"} height={"h-3"} /> : `${fullName} Profile`}
           </h3>
           <p className="mt-3 max-w-2xl text-sm sm:text-base text-gray-500">
             This is some information about the student.

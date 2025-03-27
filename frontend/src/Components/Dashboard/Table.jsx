@@ -4,8 +4,18 @@ import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router";
 import { BiSolidUserDetail } from "react-icons/bi";
 import Loading from "../Loading";
+import { formatDate } from "../../utils/formatDate";
+import { stringSlice } from "../../utils/StringSlice";
+import { BiDetail } from "react-icons/bi";
 
-export default function Table({ header, data, user, handleDelete, isLoading }) {
+export default function Table({
+  header,
+  data,
+  user,
+  handleDelete,
+  isLoading,
+  tableOf,
+}) {
   const currentUser = user || {
     _id: "",
   };
@@ -37,19 +47,29 @@ export default function Table({ header, data, user, handleDelete, isLoading }) {
           }`}
           key={index2}
         >
-          {item[item2.key]}
+          {item2.key === "date"
+            ? formatDate(item[item2.key])
+            : item2.key === "title" ||
+              item2.key === "description" ||
+              item2.key === "location"
+            ? stringSlice(item[item2.key], 20)
+            : item[item2.key]}
         </td>
       ))}
       <td className="p-6 border-l border-[#0D47A1]">
         <div className="flex items-center justify-around w-full gap-3 ">
-          {/* {item.role === "Student" && ( */}
-            <Link to={`detail/${item._id}`}>
+          <Link to={`detail/${item._id}`}>
+            {tableOf ? (
+              <BiDetail className="text-gray-800 text-2xl" s />
+            ) : (
               <BiSolidUserDetail className="text-gray-800 text-2xl" />
-            </Link>
-          {/* )} */}
+            )}
+          </Link>
+
           <Link to={`edit/${item._id}`}>
             <FaEdit className="text-primary text-2xl" />
           </Link>
+          
           {currentUser._id !== item._id && (
             <MdDelete
               onClick={() => handleDelete(item._id)}
@@ -65,7 +85,7 @@ export default function Table({ header, data, user, handleDelete, isLoading }) {
       <table className="w-full text-left">
         <thead className="text-white font-poppins uppercase bg-[#1565C0]">
           <tr>
-            <th scope="col" className="p-6 text-center" >
+            <th scope="col" className="p-6 text-center">
               ID
             </th>
             {showHeader}
@@ -77,8 +97,17 @@ export default function Table({ header, data, user, handleDelete, isLoading }) {
         <tbody>
           {isLoading ? (
             <tr>
-              <td className=" text-center" colSpan={9}>
+              <td className="text-center" colSpan={9}>
                 <Loading />
+              </td>
+            </tr>
+          ) : data.length === 0 ? (
+            <tr>
+              <td
+                className="text-center p-6 font-poppins font-medium text-lg text-gray-800"
+                colSpan={9}
+              >
+                No data available
               </td>
             </tr>
           ) : (

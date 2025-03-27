@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Axios } from "../../../API/axios";
-import { CLASSES, STUDENTS, SUBJECTS, TEACHERS } from "../../../API/API";
+import { CLASSES, SUBJECTS, TEACHERS } from "../../../API/API";
 import Input from "../../../Components/Input";
 import { MdAssignmentAdd } from "react-icons/md";
 import Loading from "../../../Components/Loading";

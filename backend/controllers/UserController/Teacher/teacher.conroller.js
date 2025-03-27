@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 export const getTeachers = async (req, res, next) => {
   try {
-    const teachers = await User.find({ role: "Teacher" }).select('-password');
+    const teachers = await User.find({ role: "Teacher" }).select("-password");
     res.status(200).json({
       success: true,
       data: teachers,
@@ -20,7 +20,8 @@ export const getTeacherDetails = async (req, res, next) => {
     const { id } = req.params;
     const teacher = await User.findOne({ _id: id, role: "Teacher" })
       .select("-password")
-      .populate("subject", "name").populate("classId", "name level");
+      .populate("subject", "name")
+      .populate("classId", "name level");
 
     if (!teacher) {
       const error = new Error("Teacher not found");
@@ -58,6 +59,22 @@ export const createTeacher = async (req, res, next) => {
 
     await newTeacher.save();
 
+    if (classId) {
+      await Class.findByIdAndUpdate(
+        classId,
+        { $push: { teachers: newTeacher._id } },
+        { new: true }
+      );
+    }
+
+    if (subject) {
+      await Subject.findByIdAndUpdate(
+        subject,
+        { $push: { teachers: newTeacher._id } },
+        { new: true }
+      );
+    }
+
     res.status(201).json({
       success: true,
       message: "Teacher created successfuly",
@@ -80,6 +97,9 @@ export const updateTeacher = async (req, res, next) => {
 
     if (!teacher) return res.status(404).json({ message: "Teacher not found" });
 
+    const oldClassId = teacher.classId;
+    const oldSubjectId = teacher.subject;
+
     if (firstName) teacher.firstName = firstName;
     if (lastName) teacher.lastName = lastName;
     if (email) teacher.email = email;
@@ -88,8 +108,34 @@ export const updateTeacher = async (req, res, next) => {
       teacher.password = await bcrypt.hash(password, salt);
     }
     if (role) teacher.role = role;
-    if (classId) teacher.classId = classId;
-    if (subject) teacher.subject = subject;
+
+    if (classId && oldClassId?.toString() !== classId?.toString()) {
+      if (oldClassId) {
+        await Class.findByIdAndUpdate(oldClassId, {
+          $pull: { teachers: teacher._id },
+        });
+      }
+
+      await Class.findByIdAndUpdate(classId, {
+        $push: { teachers: teacher._id },
+      });
+
+      teacher.classId = classId;
+    }
+
+    if (subject && oldSubjectId?.toString() !== subject?.toString()) {
+      if (oldSubjectId) {
+        await Subject.findByIdAndUpdate(oldSubjectId, {
+          $pull: { teachers: teacher._id },
+        });
+      }
+
+      await Subject.findByIdAndUpdate(subject, {
+        $addToSet: { teachers: teacher._id },
+      });
+
+      teacher.subject = subject;
+    }
 
     await teacher.save();
 
@@ -236,7 +282,7 @@ export const AssginClass = async (req, res, next) => {
     }
 
     if (teacher.classId) {
-       return res
+      return res
         .status(400)
         .json({ message: "The teacher aleardy has a class assigned with him" });
     }
@@ -250,12 +296,10 @@ export const AssginClass = async (req, res, next) => {
     teacher.save();
     classData.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Assigned teacher with subject successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Assigned teacher with subject successfully",
+    });
   } catch (error) {
     next(error);
   }
@@ -263,22 +307,26 @@ export const AssginClass = async (req, res, next) => {
 
 export const getStudentsByTeacher = async (req, res, next) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
 
-    const teacher = await User.findOne({_id: id, role: "Teacher"});
+    const teacher = await User.findOne({ _id: id, role: "Teacher" });
 
     if (!teacher || teacher.role !== "Teacher") {
-      return res.status(404).json({ success: false, message: "Teacher not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Teacher not found" });
     }
 
-    const students = await User.find({ classId: teacher.classId, role: "Student" });
+    const students = await User.find({
+      classId: teacher.classId,
+      role: "Student",
+    });
 
     res.status(200).json({
       success: true,
-      data: students, 
+      data: students,
     });
-
   } catch (error) {
     next(error);
   }
-}
+};

@@ -1,43 +1,42 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Axios } from "../../../API/axios";
-import { TEACHERS } from "../../../API/API";
+import { EVENTS } from "../../../API/API";
 import { formatDate } from "../../../utils/formatDate";
 import StudentDetailItem from "../../../Components/Dashboard/StudentDetailItem";
 import LineSkeleton from "../../../Components/Skeleton/LineSkeleton";
 
-export default function Teacher() {
-  const [teacher, setTeacher] = useState("");
+export default function Event() {
+  const [event, setEvent] = useState("");
 
-  const fullName = `${teacher.firstName} ${teacher.lastName}`;
   const { id } = useParams();
 
   useEffect(() => {
-    async function fetchTeacher() {
+    async function fetchEvent() {
       try {
-        const res = await Axios.get(`/users/${TEACHERS}/${id}`);
-        setTeacher(res.data.data);
+        const res = await Axios.get(`/${EVENTS}/${id}`);
+        setEvent(res.data.data);
         console.log(res.data.data);
       } catch (error) {
         console.log(error);
       }
     }
 
-    fetchTeacher();
+    fetchEvent();
   }, [id]);
   return (
     <>
       <h1 className="text-2xl sm:text-5xl font-semibold font-poppins text-primary mb-10 sm:mb-20 mt-3 sm:mt-4 capitalize">
-        Teacher Profile
+        Event details
       </h1>
 
       <div className="bg-white overflow-hidden shadow rounded-lg border border-primary font-poppins mb-10">
         <div className="px-4 py-5 sm:px-6">
           <h3 className="text-xl sm:text-4xl font-medium text-primary capitalize">
-            {teacher === "" ? <LineSkeleton width={"w-[300px]"} height={"h-3"} /> : `${fullName} Profile`}
+            {teacher === "" ? <LineSkeleton width={"300px"} /> : `${fullName} Profile`}
           </h3>
           <p className="mt-3 max-w-2xl text-sm sm:text-base text-gray-500">
-            This is some information about the teacher.
+            This is some information about the event.
           </p>
         </div>
         <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
