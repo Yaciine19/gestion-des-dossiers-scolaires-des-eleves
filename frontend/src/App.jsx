@@ -29,6 +29,10 @@ import Classes from "./Pages/Dashboard/Classes/Classes";
 import Class from "./Pages/Dashboard/Classes/Class";
 import AddClass from "./Pages/Dashboard/Classes/AddClass";
 import EditClass from "./Pages/Dashboard/Classes/EditClass";
+import Subjects from "./Pages/Dashboard/Subjects/Subjects";
+import Subject from "./Pages/Dashboard/Subjects/Subject";
+import AddSubject from "./Pages/Dashboard/Subjects/AddSubject";
+import EditSubject from "./Pages/Dashboard/Subjects/EditSubject";
 
 export default function App() {
   return (
@@ -66,6 +70,12 @@ export default function App() {
             <Route path="classes/detail/:id" element={<Class />} />
             <Route path="classes/edit/:id" element={<EditClass />} />
             <Route path="classes/add" element={<AddClass />} />
+
+            {/* Subjects */}
+            <Route path="subjects" element={<Subjects />} />
+            <Route path="subjects/detail/:id" element={<Subject />} />
+            <Route path="subjects/edit/:id" element={<EditSubject />} />
+            <Route path="subjects/add" element={<AddSubject />} />
 
             {/* Events */}
             <Route path="events" element={<Events />} />

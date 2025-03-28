@@ -15,12 +15,12 @@ const subjectSchema = mongoose.Schema(
         ref: "User",
       },
     ],
-    classes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Class",
-      },
-    ],
+    // classes: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Class",
+    //   },
+    // ],
   },
   { timestamps: true }
 );

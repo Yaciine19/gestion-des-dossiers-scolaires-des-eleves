@@ -11,7 +11,7 @@ export default function UsersList({ users, type }) {
               key={index}
               fullName={`${user.firstName} ${user.lastName}`}
               email={user.email}
-              extraData={user.subject.name}
+              extraData={user?.subject?.name}
             />
           ))
         ) : (
@@ -20,7 +20,7 @@ export default function UsersList({ users, type }) {
               key={index}
               fullName={`${user.firstName} ${user.lastName}`}
               email={user.email}
-              extraData={user.registrationNumber}
+              extraData={user?.registrationNumber}
             />
           ))
         )

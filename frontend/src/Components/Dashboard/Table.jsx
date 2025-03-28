@@ -47,7 +47,7 @@ export default function Table({
           }`}
           key={index2}
         >
-          {item2.key === "date" || item2.key === "createdAt"
+          {item2.key === "date" || item2.key === "createdAt" || item2.key === "updatedAt"
             ? formatDate(item[item2.key])
             : item2.key === "title" ||
               item2.key === "description" ||
