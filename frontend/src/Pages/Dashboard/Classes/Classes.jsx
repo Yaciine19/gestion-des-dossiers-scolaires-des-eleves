@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
-import { EVENTS, EXAMS } from "../../../API/API";
+import { CLASSES, EVENTS } from "../../../API/API";
 import { Link, useLocation } from "react-router";
 import { RiAddCircleLine } from "react-icons/ri";
 import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 
-export default function Exams() {
-  const [exams, setExams] = useState([]);
+export default function Classes() {
+  const [classes, setClasses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [title, setTitle] = useState("");
@@ -36,46 +36,38 @@ export default function Exams() {
 
   const header = [
     {
-      key: "subject",
-      name: "Subject",
+      key: "name",
+      name: "Name",
     },
     {
-      key: "class",
-      name: "Class",
+      key: "level",
+      name: "Level",
     },
     {
-      key: "date",
-      name: "Date",
-    },
-    {
-      key: "duration",
-      name: "Duration ( minutes )",
-    },
-    {
-      key: "term",
-      name: "Term",
+      key: "createdAt",
+      name: "Created at",
     },
   ];
 
   useEffect(() => {
-    async function fetchEvents() {
+    async function fetchClasses() {
       setIsLoading(true);
       try {
-        const res = await Axios.get(`/${EXAMS}`);
-        setExams(res.data.data);
+        const res = await Axios.get(`/${CLASSES}`);
+        setClasses(res.data.data);
         console.log(res.data.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     }
-    fetchEvents();
+    fetchClasses();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      await Axios.delete(`/${EXAMS}/${id}`);
-      setExams((prevExams) => prevExams.filter((exam) => exam._id !== id));
+      await Axios.delete(`/${CLASSES}/${id}`);
+      setClasses((prevClass) => prevClass.filter((classData) => classData._id !== id));
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +75,7 @@ export default function Exams() {
   return (
     <>
       <h1 className="text-2xl sm:text-5xl font-semibold font-poppins text-primary mb-10 sm:mb-20 mt-3 sm:mt-4">
-        Exams Page
+        Classes Page
       </h1>
 
       <div className="flex flex-col">
@@ -91,12 +83,12 @@ export default function Exams() {
           to="add"
           className="w-[90%] self-end mb-5 flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
         >
-          Add Exams <RiAddCircleLine className="text-2xl" />
+          Add Class <RiAddCircleLine className="text-2xl" />
         </Link>
 
         <Table
           header={header}
-          data={exams}
+          data={classes}
           handleDelete={handleDelete}
           isLoading={isLoading}
           notUsers={true}

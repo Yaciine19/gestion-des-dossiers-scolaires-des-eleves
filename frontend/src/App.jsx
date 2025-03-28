@@ -25,6 +25,8 @@ import Exams from "./Pages/Dashboard/Exams/Exams";
 import Exam from "./Pages/Dashboard/Exams/Exam";
 import EditExam from "./Pages/Dashboard/Exams/EditExam";
 import AddExam from "./Pages/Dashboard/Exams/AddExam";
+import Classes from "./Pages/Dashboard/Classes/Classes";
+import Class from "./Pages/Dashboard/Classes/Class";
 
 export default function App() {
   return (
@@ -56,6 +58,10 @@ export default function App() {
             <Route path="teachers/detail/:id" element={<Teacher />} />
             <Route path="teachers/edit/:id" element={<EditTeacher />} />
             <Route path="teachers/add" element={<AddTeacher />} />
+
+            {/* Classes */}
+            <Route path="classes" element={<Classes />} />
+            <Route path="classes/detail/:id" element={<Class />} />
 
             {/* Events */}
             <Route path="events" element={<Events />} />

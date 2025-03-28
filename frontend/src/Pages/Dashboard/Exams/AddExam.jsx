@@ -99,12 +99,10 @@ export default function AddExam() {
             <isLoading />
           ) : (
             <form onSubmit={handleOnSubmit} className="w-full mt-8 space-y-6">
-              <div className={`${!form.subject && ""}`}>
+              <div className="flex-1">
                 <label
                   htmlFor="subject"
-                  className={`text-primary font-poppins md:text-lg font-medium block ${
-                    form.subject && "mb-2"
-                  } ml-1`}
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
                   Subject :
                 </label>
@@ -125,12 +123,10 @@ export default function AddExam() {
                 </select>
               </div>
 
-              <div className={`${!form.class && "flex gap-3 items-center"}`}>
+              <div className="flex-1">
                 <label
                   htmlFor="subject"
-                  className={`text-primary font-poppins md:text-lg font-medium block ${
-                    form.class && "mb-2"
-                  } ml-1`}
+                  className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
                   Class :
                 </label>

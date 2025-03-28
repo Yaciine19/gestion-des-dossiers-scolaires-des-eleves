@@ -17,17 +17,18 @@ export const getClassDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const existingClass = await Class.findById(id);
+    const existingClass = await Class.findById(id).populate({path: 'teachers', select: 'firstName lastName email subject', populate: {path: 'subject', select: 'name'}}).populate({path: 'students', select: 'firstName lastName email registrationNumber'});
 
     if (!existingClass) {
-      const error = new Error("Class not found");
-      error.statusCode = 404;
-      throw error;
+      return res.status(404).json({success: false, message: 'Class not found'})
+      // const error = new Error("Class not found");
+      // error.statusCode = 404;
+      // throw error;
     }
 
     res.status(200).json({
       success: true,
-      data: existingClass,
+      data: existingClass
     });
   } catch (error) {
     next(error);
@@ -42,9 +43,10 @@ export const CreateClass = async (req, res, next) => {
     const existingClass = await Class.findOne({ name, level });
 
     if (existingClass) {
-      const error = new Error("Class already exists");
-      error.statusCode = 409;
-      throw error;
+      return res.status(409).json({success: false, message: "Class already exists"})
+      // const error = new Error("Class already exists");
+      // error.statusCode = 409;
+      // throw error;
     }
 
     const newClass = new Class({

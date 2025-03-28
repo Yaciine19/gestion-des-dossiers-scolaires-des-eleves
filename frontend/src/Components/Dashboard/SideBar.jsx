@@ -8,6 +8,7 @@ import { PiStudentBold } from "react-icons/pi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { MdEventAvailable } from "react-icons/md";
 import { PiExam } from "react-icons/pi";
+import { SiGoogleclassroom } from "react-icons/si";
 import axios from "axios";
 import { BaseURL, SIGN_OUT } from "../../API/API";
 import Cookie from "cookie-universal";
@@ -32,6 +33,11 @@ const NavItems = [
     icon: <FaChalkboardTeacher />,
     to: "/dashboard/teachers",
     navigate: "Teachers",
+  },
+  {
+    icon: <SiGoogleclassroom />,
+    to: "/dashboard/classes",
+    navigate: "Classes",
   },
   {
     icon: <MdEventAvailable />,
