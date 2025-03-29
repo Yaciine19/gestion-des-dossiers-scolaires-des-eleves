@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router";
@@ -7,18 +7,30 @@ import Loading from "../Loading";
 import { formatDate } from "../../utils/formatDate";
 import { stringSlice } from "../../utils/StringSlice";
 import { BiDetail } from "react-icons/bi";
+import { USER } from "../../API/API";
+import { Axios } from "../../API/axios";
 
 export default function Table({
   header,
   data,
-  user,
   handleDelete,
   isLoading,
   notUsers = false,
 }) {
-  const currentUser = user || {
-    _id: "",
-  };
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await Axios.get(`users/${USER}`);
+        setUser(res.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchUser();
+  }, []);
 
   // Show Header
   const showHeader = header.map((item, index) => (
@@ -47,39 +59,48 @@ export default function Table({
           }`}
           key={index2}
         >
-          {item2.key === "date" || item2.key === "createdAt" || item2.key === "updatedAt"
+          {item2.key === "date" ||
+          item2.key === "createdAt" ||
+          item2.key === "updatedAt"
             ? formatDate(item[item2.key])
             : item2.key === "title" ||
               item2.key === "description" ||
               item2.key === "location"
             ? stringSlice(item[item2.key], 20)
-            : item2.key === "class" ? `${item[item2.key]?.name} - ${item[item2.key]?.level}` : item2.key === "subject" ? `${item[item2.key]?.name}` : item[item2.key]}
+            : item2.key === "class"
+            ? `${item[item2.key]?.name} - ${item[item2.key]?.level}`
+            : item2.key === "subject"
+            ? `${item[item2.key]?.name}`
+            : item[item2.key]}
         </td>
       ))}
-      <td className="p-6 border-l border-[#0D47A1]">
-        <div className="flex items-center justify-around w-full gap-3 ">
-          <Link to={`detail/${item._id}`}>
-            {notUsers ? (
-              <BiDetail className="text-gray-800 text-2xl"/>
-            ) : (
-              <BiSolidUserDetail className="text-gray-800 text-2xl" />
+      {user.role === "Admin" && (
+        <td className="p-6 border-l border-[#0D47A1]">
+          <div className="flex items-center justify-around w-full gap-3 ">
+            <Link to={`detail/${item._id}`}>
+              {notUsers ? (
+                <BiDetail className="text-gray-800 text-2xl" />
+              ) : (
+                <BiSolidUserDetail className="text-gray-800 text-2xl" />
+              )}
+            </Link>
+
+            <Link to={`edit/${item._id}`}>
+              <FaEdit className="text-primary text-2xl" />
+            </Link>
+
+            {user._id !== item._id && (
+              <MdDelete
+                onClick={() => handleDelete(item._id)}
+                className="text-red-500 text-2xl cursor-pointer"
+              />
             )}
-          </Link>
-
-          <Link to={`edit/${item._id}`}>
-            <FaEdit className="text-primary text-2xl" />
-          </Link>
-
-          {currentUser._id !== item._id && (
-            <MdDelete
-              onClick={() => handleDelete(item._id)}
-              className="text-red-500 text-2xl cursor-pointer"
-            />
-          )}
-        </div>
-      </td>
+          </div>
+        </td>
+      )}
     </tr>
   ));
+
   return (
     <div className="relative overflow-x-auto shadow border border-[#1565C0] sm:rounded-lg mb-10">
       <table className="w-full text-left">
@@ -89,9 +110,9 @@ export default function Table({
               ID
             </th>
             {showHeader}
-            <th scope="col" className="p-6 text-center">
+            {user.role === "Admin" && <th scope="col" className="p-6 text-center">
               Actions
-            </th>
+            </th>}
           </tr>
         </thead>
         <tbody>

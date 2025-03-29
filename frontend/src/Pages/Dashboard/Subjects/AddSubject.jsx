@@ -60,7 +60,7 @@ export default function AddSubject() {
                   htmlFor="name"
                   className="text-primary font-poppins md:text-lg font-medium block mb-2 ml-1"
                 >
-                  Name of class :
+                  Name of subject :
                 </label>
                 <Input
                   id="name"

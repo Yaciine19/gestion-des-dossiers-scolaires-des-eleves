@@ -58,7 +58,7 @@ export default function Exams() {
   ];
 
   useEffect(() => {
-    async function fetchEvents() {
+    async function fetchExams() {
       setIsLoading(true);
       try {
         const res = await Axios.get(`/${EXAMS}`);
@@ -69,7 +69,7 @@ export default function Exams() {
         console.log(error);
       }
     }
-    fetchEvents();
+    fetchExams();
   }, []);
 
   const handleDelete = async (id) => {

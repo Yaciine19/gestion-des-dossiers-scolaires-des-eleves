@@ -33,6 +33,8 @@ import Subjects from "./Pages/Dashboard/Subjects/Subjects";
 import Subject from "./Pages/Dashboard/Subjects/Subject";
 import AddSubject from "./Pages/Dashboard/Subjects/AddSubject";
 import EditSubject from "./Pages/Dashboard/Subjects/EditSubject";
+import TeacherDashboard from "./Pages/TeacherDashboard/TeacherDashboard";
+import HomeTeachers from "./Pages/TeacherDashboard/Home/HomeTeachers";
 
 export default function App() {
   return (
@@ -47,8 +49,8 @@ export default function App() {
         element={<RequireAuth allowedRole={["Admin", "Teacher", "Student"]} />}
       >
         
-        {/* Admin and Teacher */}
-        <Route element={<RequireAuth allowedRole={["Admin", "Teacher"]} />}>
+        {/* Admin */}
+        <Route element={<RequireAuth allowedRole={["Admin"]} />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
@@ -88,6 +90,14 @@ export default function App() {
             <Route path="exams/detail/:id" element={<Exam />} />
             <Route path="exams/edit/:id" element={<EditExam />} />
             <Route path="exams/add" element={<AddExam />} /> 
+          </Route>
+        </Route>
+
+        {/* Teacher */}
+        <Route element={<RequireAuth allowedRole={["Teacher"]} />}>
+          <Route path="/dashboard-teacher" element={<TeacherDashboard />}>
+            <Route index element={<HomeTeachers />} />
+            
           </Route>
         </Route>
 

@@ -63,7 +63,6 @@ export default function Events() {
       try {
         const res = await Axios.get(`/${EVENTS}`);
         setEvents(res.data.data);
-        console.log(res.data.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);

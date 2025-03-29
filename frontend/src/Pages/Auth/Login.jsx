@@ -55,8 +55,10 @@ export default function Login() {
       const token = res.data.data.token;
       cookie.set("parent-space", token);
       const role = res.data.data.user.role;
-      if (role === "Admin" || role === "Teacher") {
+      if (role === "Admin") {
         window.location.pathname = "/dashboard";
+      } else if (role === "Teacher") {
+        window.location.pathname = "/dashboard-teacher";
       } else {
         window.location.pathname = "/";
       }

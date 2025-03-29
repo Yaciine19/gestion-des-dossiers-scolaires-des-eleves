@@ -1,65 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router";
-import { MdSpaceDashboard } from "react-icons/md";
-import { FaUsers } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
-import { PiStudentBold } from "react-icons/pi";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { MdEventAvailable } from "react-icons/md";
-import { PiExam } from "react-icons/pi";
-import { SiGoogleclassroom } from "react-icons/si";
-import { GiBookmarklet } from "react-icons/gi";
+
 import axios from "axios";
 import { BaseURL, SIGN_OUT } from "../../API/API";
 import Cookie from "cookie-universal";
+import { NavLinksAdmin } from "../../NavLinks/NavLinksAdmin";
+import { NavLinksTeacher } from "../../NavLinks/NavLinksTeacher";
 
-const NavItems = [
-  {
-    icon: <MdSpaceDashboard />,
-    to: "/dashboard",
-    navigate: "Dashboard",
-  },
-  {
-    icon: <FaUsers />,
-    to: "/dashboard/users",
-    navigate: "Users",
-  },
-  {
-    icon: <PiStudentBold />,
-    to: "/dashboard/students",
-    navigate: "Students",
-  },
-  {
-    icon: <FaChalkboardTeacher />,
-    to: "/dashboard/teachers",
-    navigate: "Teachers",
-  },
-  {
-    icon: <SiGoogleclassroom />,
-    to: "/dashboard/classes",
-    navigate: "Classes",
-  },
-  {
-    icon: <GiBookmarklet />,
-    to: "/dashboard/subjects",
-    navigate: "Subjects",
-  },
-  {
-    icon: <MdEventAvailable />,
-    to: "/dashboard/events",
-    navigate: "Events",
-  },
-  {
-    icon: <PiExam />,
-    to: "/dashboard/exams",
-    navigate: "Exams",
-  },
-];
-
-export default function SideBar() {
+export default function SideBar({role}) {
   const [isOpen, setIsOpen] = useState(false);
   const asideRef = useRef(null);
+
+  const WhichNavLinks = role === "Admin" ? NavLinksAdmin : NavLinksTeacher; 
 
   // Cookie
   const cookie = Cookie();
@@ -94,7 +48,7 @@ export default function SideBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const showNavItems = NavItems.map((item, index) => (
+  const showNavItems = WhichNavLinks.map((item, index) => (
     <li key={index}>
       <Link
         to={item.to}
@@ -126,7 +80,7 @@ export default function SideBar() {
       >
         <div className="h-full px-3 py-4 overflow-y-auto  bg-gray-800 border">
           <Link
-            to={"/dashboard"}
+            to={"/"}
             className="flex items-center py-3  px-2.5 mb-5"
           >
             <span className="self-center text-2xl font-poppins font-semibold whitespace-nowrap dark:text-white">

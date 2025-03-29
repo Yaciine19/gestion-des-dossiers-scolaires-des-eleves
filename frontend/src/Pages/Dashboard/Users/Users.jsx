@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import Table from "../../../Components/Dashboard/Table";
 import { Axios } from "../../../API/axios";
-import { USER } from "../../../API/API";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
-  const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const header = [
@@ -45,19 +43,6 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await Axios.get(`users/${USER}`);
-        setUser(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchUser();
-  }, []);
-
   const handleDelete = async (id) => {
     try {
       await Axios.delete(`/users/${id}`);
@@ -75,7 +60,6 @@ export default function Users() {
       <Table
         header={header}
         data={users}
-        user={user}
         handleDelete={handleDelete}
         isLoading={isLoading}
       />
