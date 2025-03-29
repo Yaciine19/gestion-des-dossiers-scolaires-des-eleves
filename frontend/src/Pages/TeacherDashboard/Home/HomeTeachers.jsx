@@ -9,16 +9,17 @@ import CardSkeleton from "../../../Components/Skeleton/CardSkeleton";
 export default function HomeTeachers() {
   const [exams, setExams] = useState([]);
   const [events, setEvents] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isEventsLoading, setIsEventsLoading] = useState(false);
+  const [isExamsLoading, setIsExamsLoading] = useState(false);
 
 // Fetch Events
 useEffect(() => {
   async function fetchEvents() {
-    setIsLoading(true);
+    setIsEventsLoading(true);
     try {
       const res = await Axios.get(`/${EVENTS}`);
       setEvents(res.data.data);
-      setIsLoading(false);
+      setIsEventsLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -29,11 +30,11 @@ useEffect(() => {
 // Fetch Exams
   useEffect(() => {
     async function fetchExams() {
-      setIsLoading(true);
+      setIsExamsLoading(true);
       try {
         const res = await Axios.get(`/${EXAMS}`);
         setExams(res.data.data);
-        setIsLoading(false);
+        setIsExamsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -76,7 +77,7 @@ useEffect(() => {
       </h2>
 
       <div className="space-y-5 mb-8">
-        {isLoading ? <CardSkeleton /> : events.map((event) => <Card key={event._id} title={event.title} description={event.description} date={formatDate(event.date)} location={event.location} audience={event.audience} />)}
+        {isEventsLoading ? <CardSkeleton /> : events.map((event) => <Card key={event._id} title={event.title} description={event.description} date={formatDate(event.date)} location={event.location} audience={event.audience} />)}
       </div>
 
       <h2 className="text-xl sm:text-3xl font-medium font-poppins text-primary mb-6">
@@ -86,7 +87,7 @@ useEffect(() => {
       <Table
         header={header}
         data={exams}
-        isLoading={isLoading}
+        isLoading={isExamsLoading}
         notUsers={true}
       />
     </>

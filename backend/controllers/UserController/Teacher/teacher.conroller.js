@@ -15,6 +15,7 @@ export const getTeachers = async (req, res, next) => {
   }
 };
 
+// For Admin
 export const getTeacherDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -229,7 +230,11 @@ export const teacherWithoutSubject = async (req, res, next) => {
 // GET students taught by the teacher
 export const studentsTaughtByTeacher = async (req, res, next) => {
   try {
-    const teacher = await User.findById(req.user.id);
+    const { id } = req.user;
+    const teacher = await User.findOne({ _id: id, role: "Teacher" })
+      .select("-password")
+      .populate("subject", "name")
+      .populate("classId", "name level");
 
     if (!teacher || teacher.role !== "Teacher") {
       return res
@@ -254,7 +259,7 @@ export const studentsTaughtByTeacher = async (req, res, next) => {
         .json({ success: false, message: "Class not Found" });
     }
 
-    res.json({ success: true, students: classData.students });
+    res.json({ success: true, teacher: teacher, students: classData.students });
   } catch (error) {
     next(error);
   }

@@ -9,6 +9,7 @@ export const USER = "user";
 export const STUDENTS = "students";
 
 export const TEACHERS = "teachers";
+export const TEACHER_STUDENTS = "teacher-students";
 
 export const CLASSES = "classes";
 

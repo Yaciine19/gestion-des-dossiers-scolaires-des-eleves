@@ -35,6 +35,7 @@ import AddSubject from "./Pages/Dashboard/Subjects/AddSubject";
 import EditSubject from "./Pages/Dashboard/Subjects/EditSubject";
 import TeacherDashboard from "./Pages/TeacherDashboard/TeacherDashboard";
 import HomeTeachers from "./Pages/TeacherDashboard/Home/HomeTeachers";
+import MyClass from "./Pages/TeacherDashboard/MyClass/MyClass";
 
 export default function App() {
   return (
@@ -97,7 +98,7 @@ export default function App() {
         <Route element={<RequireAuth allowedRole={["Teacher"]} />}>
           <Route path="/dashboard-teacher" element={<TeacherDashboard />}>
             <Route index element={<HomeTeachers />} />
-            
+            <Route path="my-class" element={<MyClass />} />
           </Route>
         </Route>
 

@@ -73,8 +73,9 @@ userRouter.post("/teachers/assign-class", authorize, AssginClass);
 
 userRouter.get("/teachers-without-subject", authorize, teacherWithoutSubject);
 
+// GET information about teacher and his students
 userRouter.get(
-  "/teachers/teacher-students",
+  "/teacher-students",
   authorize,
   studentsTaughtByTeacher
 );
