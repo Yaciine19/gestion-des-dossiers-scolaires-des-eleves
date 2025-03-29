@@ -5,12 +5,38 @@ import LineSkeleton from "../../../Components/Skeleton/LineSkeleton";
 import { SiGoogleclassroom } from "react-icons/si";
 import { PiStudent } from "react-icons/pi";
 import { GiBookmarklet } from "react-icons/gi";
-import Table from "../../../Components/Dashboard/Table";
+import TableStudents from "../../../Components/Dashboard/TableStudents";
+import { useLocation } from "react-router";
+import SuccessAlert from "../../../Components/Dashboard/SuccessAlert";
 
 export default function MyClass() {
   const [teacher, setTeacher] = useState("");
   const [students, setStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+
+  const location = useLocation();
+
+  const successMessage = location.state?.successMessage || null;
+
+  useEffect(() => {
+    if (successMessage) {
+      setIsSuccess(true);
+      setTitle(successMessage.title);
+      setMessage(successMessage.message);
+
+      // إعادة تعيين `location.state` لمنع التكرار
+      window.history.replaceState({}, "");
+
+      const timer = setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   useEffect(() => {
     async function fetchTeacher() {
@@ -65,19 +91,29 @@ export default function MyClass() {
           <SiGoogleclassroom className="text-primary text-xl md:text-3xl" />
           <p className="text-xl md:text-3xl font-medium text-primary ">
             Class:{" "}
-            <span className="text-gray-800">{ isLoading ? "Loading..." : `${teacher.classId?.name} - ${teacher.classId?.level}`}</span>
+            <span className="text-gray-800">
+              {isLoading
+                ? "Loading..."
+                : `${teacher.classId?.name} - ${teacher.classId?.level}`}
+            </span>
           </p>
         </div>
         <div className="flex gap-3 border-2 py-3 px-6 text-center rounded-lg border-primary">
           <PiStudent className="text-primary text-xl md:text-3xl" />
           <p className="text-xl md:text-3xl font-medium text-primary">
-            Students : <span className="text-gray-800">{isLoading ? "Loading..." : students.length}</span>
+            Students :{" "}
+            <span className="text-gray-800">
+              {isLoading ? "Loading..." : students.length}
+            </span>
           </p>
         </div>
         <div className="flex gap-3 border-2 py-3 px-6 text-center rounded-lg border-primary">
           <GiBookmarklet className="text-primary text-xl md:text-3xl" />
           <p className="text-xl md:text-3xl font-medium text-primary">
-            Subject : <span className="text-gray-800">{isLoading ? "Loading..." : teacher.subject?.name}</span>
+            Subject :{" "}
+            <span className="text-gray-800">
+              {isLoading ? "Loading..." : teacher.subject?.name}
+            </span>
           </p>
         </div>
       </div>
@@ -85,11 +121,11 @@ export default function MyClass() {
       <h2 className="text-xl sm:text-3xl font-medium font-poppins text-primary mb-6">
         My studnets :
       </h2>
-      <Table
-        header={header}
-        data={students}
-        isLoading={isLoading}
-        notUsers={true}
+      <TableStudents header={header} data={students} isLoading={isLoading} />
+      <SuccessAlert
+        title={title}
+        message={message}
+        classValue={isSuccess ? "opacity-100" : "opacity-0 pointer-events-none"}
       />
     </>
   );

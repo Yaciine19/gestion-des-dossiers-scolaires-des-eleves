@@ -6,7 +6,7 @@ import { formatDate } from "../../../utils/formatDate";
 import StudentDetailItem from "../../../Components/Dashboard/StudentDetailItem";
 import LineSkeleton from "../../../Components/Skeleton/LineSkeleton";
 
-export default function StudentDetail() {
+export default function Student() {
   const [student, setStudent] = useState("");
 
   const fullName = `${student.firstName} ${student.lastName}`;

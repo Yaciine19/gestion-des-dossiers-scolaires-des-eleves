@@ -19,9 +19,8 @@ export default function AddEvent() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     try {
-      const res = await Axios.post(`/${EVENTS}`, form);
+      await Axios.post(`/${EVENTS}`, form);
       setIsLoading(false);
-    console.log(res)
       // تستنى شوي حتى تخلص loading بش تبدا هاذي
       setTimeout(() => {
         navigate("/dashboard/events", {

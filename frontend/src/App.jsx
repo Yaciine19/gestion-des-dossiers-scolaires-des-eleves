@@ -10,7 +10,6 @@ import RequireAuth from "./Pages/Auth/RequireAuth";
 import Page404 from "./Pages/Auth/Page404";
 import StudentHome from "./Pages/Dashboard/Home/StudentHome";
 import Students from "./Pages/Dashboard/Students/Students";
-import StudentDetail from "./Pages/Dashboard/Students/Student";
 import Teachers from "./Pages/Dashboard/Teachers/Teachers";
 import EditStudent from "./Pages/Dashboard/Students/EditStudent";
 import AddStudent from "./Pages/Dashboard/Students/AddStudent";
@@ -36,6 +35,9 @@ import EditSubject from "./Pages/Dashboard/Subjects/EditSubject";
 import TeacherDashboard from "./Pages/TeacherDashboard/TeacherDashboard";
 import HomeTeachers from "./Pages/TeacherDashboard/Home/HomeTeachers";
 import MyClass from "./Pages/TeacherDashboard/MyClass/MyClass";
+import Attendance from "./Pages/TeacherDashboard/Attendance/Attendance";
+import Student from "./Pages/Dashboard/Students/Student";
+import StudentDetail from "./Pages/TeacherDashboard/StudentDetail/StudentDetail";
 
 export default function App() {
   return (
@@ -58,7 +60,7 @@ export default function App() {
 
             {/* Students */}
             <Route path="students" element={<Students />} />
-            <Route path="students/detail/:id" element={<StudentDetail />} />
+            <Route path="students/detail/:id" element={<Student />} />
             <Route path="students/edit/:id" element={<EditStudent />} />
             <Route path="students/add" element={<AddStudent />} />
 
@@ -99,6 +101,8 @@ export default function App() {
           <Route path="/dashboard-teacher" element={<TeacherDashboard />}>
             <Route index element={<HomeTeachers />} />
             <Route path="my-class" element={<MyClass />} />
+            <Route path="my-class/attendance/:id" element={<Attendance />} />
+            <Route path="my-class/student/detail/:id" element={<StudentDetail />} />
           </Route>
         </Route>
 

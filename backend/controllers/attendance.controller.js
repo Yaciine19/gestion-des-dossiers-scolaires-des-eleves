@@ -3,7 +3,8 @@ import User from "../models/user.model.js";
 
 export const markAttendance = async (req, res, next) => {
   try {
-    const { studentId, status, remark } = req.body;
+    const {studentId} = req.params;
+    const { status, remark } = req.body;
     const recordedBy = req.user._id;
 
     const student = await User.findOne({ _id: studentId, role: "Student" });
@@ -15,7 +16,7 @@ export const markAttendance = async (req, res, next) => {
 
     const attendance = new Attendance({
       student: studentId,
-      status: status || "",
+      status: status,
       remark: remark || "",
       recordedBy,
     });
