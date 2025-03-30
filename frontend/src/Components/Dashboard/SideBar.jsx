@@ -8,12 +8,13 @@ import { BaseURL, SIGN_OUT } from "../../API/API";
 import Cookie from "cookie-universal";
 import { NavLinksAdmin } from "../../NavLinks/NavLinksAdmin";
 import { NavLinksTeacher } from "../../NavLinks/NavLinksTeacher";
+import { NavLinksStudent } from "../../NavLinks/NavLinksStudent";
 
 export default function SideBar({role}) {
   const [isOpen, setIsOpen] = useState(false);
   const asideRef = useRef(null);
 
-  const WhichNavLinks = role === "Admin" ? NavLinksAdmin : NavLinksTeacher; 
+  const WhichNavLinks = role === "Admin" ? NavLinksAdmin : role === "Teacher" ? NavLinksTeacher : NavLinksStudent; 
 
   // Cookie
   const cookie = Cookie();

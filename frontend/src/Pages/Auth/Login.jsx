@@ -60,7 +60,7 @@ export default function Login() {
       } else if (role === "Teacher") {
         window.location.pathname = "/dashboard-teacher";
       } else {
-        window.location.pathname = "/";
+        window.location.pathname = "/dashboard-student";
       }
     } catch (error) {
       console.log(error)

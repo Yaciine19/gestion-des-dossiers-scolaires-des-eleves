@@ -14,19 +14,6 @@ export default function StudentDetail() {
   const fullName = `${student.firstName} ${student.lastName}`;
   const { id } = useParams();
 
-  useEffect(() => {
-    async function fetchStudent() {
-      try {
-        const res = await Axios.get(`/users/${STUDENTS}/${id}`);
-        setStudent(res.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    fetchStudent();
-  }, [id]);
-
   const handleChangeTerm = (e) => {
     async function fetchBulletinOfStudent() {
       try {

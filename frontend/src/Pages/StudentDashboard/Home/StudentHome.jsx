@@ -6,7 +6,7 @@ import Table from "../../../Components/Dashboard/Table";
 import { formatDate } from "../../../utils/formatDate";
 import CardSkeleton from "../../../Components/Skeleton/CardSkeleton";
 
-export default function HomeTeachers() {
+export default function StudentHome() {
   const [exams, setExams] = useState([]);
   const [events, setEvents] = useState([]);
   const [isEventsLoading, setIsEventsLoading] = useState(false);
@@ -93,3 +93,4 @@ useEffect(() => {
     </>
   );
 }
+

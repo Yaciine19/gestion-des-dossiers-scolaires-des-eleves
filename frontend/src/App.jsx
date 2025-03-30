@@ -8,7 +8,7 @@ import Users from "./Pages/Dashboard/Users/Users";
 import DashboardHome from "./Pages/Dashboard/Home/DashboardHome";
 import RequireAuth from "./Pages/Auth/RequireAuth";
 import Page404 from "./Pages/Auth/Page404";
-import StudentHome from "./Pages/Dashboard/Home/StudentHome";
+import StudentHome from "./Pages/StudentDashboard/Home/StudentHome";
 import Students from "./Pages/Dashboard/Students/Students";
 import Teachers from "./Pages/Dashboard/Teachers/Teachers";
 import EditStudent from "./Pages/Dashboard/Students/EditStudent";
@@ -39,6 +39,10 @@ import Attendance from "./Pages/TeacherDashboard/Attendance/Attendance";
 import Student from "./Pages/Dashboard/Students/Student";
 import StudentDetail from "./Pages/TeacherDashboard/StudentDetail/StudentDetail";
 import NoteOfStudent from "./Pages/TeacherDashboard/NoteOfStudent/NoteOfStudent";
+import StudentDashboard from "./Pages/StudentDashboard/StudentDashboard";
+import MyAttendance from "./Pages/StudentDashboard/MyAttendance/MyAttendance";
+import MyBulletin from "./Pages/StudentDashboard/MyBulletin/MyBulletin";
+import AddAdmin from "./Pages/Dashboard/Users/AddUser";
 
 export default function App() {
   return (
@@ -58,6 +62,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
             <Route path="users" element={<Users />} />
+            <Route path="users/add" element={<AddAdmin />} />
 
             {/* Students */}
             <Route path="students" element={<Students />} />
@@ -110,7 +115,11 @@ export default function App() {
 
         {/* Student */}
         <Route element={<RequireAuth allowedRole={["Student"]} />}>
-          <Route path="/home" element={<StudentHome />} />
+          <Route path="/dashboard-student" element={<StudentDashboard />} >
+            <Route index element={<StudentHome />} />
+            <Route path="attendance" element={<MyAttendance />} />
+            <Route path="bulletin" element={<MyBulletin />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

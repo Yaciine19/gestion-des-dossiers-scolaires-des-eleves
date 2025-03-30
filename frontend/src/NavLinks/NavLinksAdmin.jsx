@@ -16,7 +16,7 @@ export const NavLinksAdmin = [
   {
     icon: <FaUsers />,
     to: "/dashboard/users",
-    navigate: "Users",
+    navigate: "All Users",
   },
   {
     icon: <PiStudentBold />,

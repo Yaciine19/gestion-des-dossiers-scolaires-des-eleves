@@ -160,7 +160,8 @@ export const getStudentAcademicRecord = async (req, res, next) => {
     }
 
     const record = await Bulletin.find({ student: studentId })
-      .populate("subjects.subject", "name");
+      .populate("subjects.subject", "name")
+      .populate("class", "name level");
 
     res.json({ success: true, data: record });
   } catch (error) {
