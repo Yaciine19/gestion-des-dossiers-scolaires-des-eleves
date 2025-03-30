@@ -4,11 +4,11 @@ import { authorize } from "../middlewares/auth.middleware.js";
 
 const bulletinRouter = Router();
 
-bulletinRouter.put('/update', authorize, updateBulletin);
+bulletinRouter.put('/update/:studentId', authorize, updateBulletin);
 
-bulletinRouter.get('/:studentId/term/:termNumber', getStudentBulletin);
+bulletinRouter.get('/:studentId/term/:termNumber',authorize, getStudentBulletin);
 
-bulletinRouter.get('/annual/:studentId', calculateAnnualAverage);
+bulletinRouter.get('/annual/:studentId',authorize,  calculateAnnualAverage);
 
 // المعلم يعرض السجل الأكاديمي للطلاب الذين يدرسهم
 bulletinRouter.get("/teacher/students-history", authorize, getStudentsAcademicHistory);

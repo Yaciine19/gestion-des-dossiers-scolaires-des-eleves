@@ -20,3 +20,5 @@ export const EVENTS = "events";
 export const EXAMS = "exams";
 
 export const ATTENDANCES = "attendances";
+
+export const BULLETINS = "bulletins"

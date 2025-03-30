@@ -38,6 +38,7 @@ import MyClass from "./Pages/TeacherDashboard/MyClass/MyClass";
 import Attendance from "./Pages/TeacherDashboard/Attendance/Attendance";
 import Student from "./Pages/Dashboard/Students/Student";
 import StudentDetail from "./Pages/TeacherDashboard/StudentDetail/StudentDetail";
+import NoteOfStudent from "./Pages/TeacherDashboard/NoteOfStudent/NoteOfStudent";
 
 export default function App() {
   return (
@@ -101,8 +102,9 @@ export default function App() {
           <Route path="/dashboard-teacher" element={<TeacherDashboard />}>
             <Route index element={<HomeTeachers />} />
             <Route path="my-class" element={<MyClass />} />
-            <Route path="my-class/attendance/:id" element={<Attendance />} />
+            <Route path="my-class/attendance-student/:id" element={<Attendance />} />
             <Route path="my-class/student/detail/:id" element={<StudentDetail />} />
+            <Route path="my-class/note-student/:id" element={<NoteOfStudent />} />
           </Route>
         </Route>
 

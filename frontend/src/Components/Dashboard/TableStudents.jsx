@@ -42,11 +42,11 @@ export default function TableStudents({
           <BiSolidUserDetail className="text-gray-800 text-2xl" />
         </Link>
 
-        <Link to={`attendance/${item._id}`}>
+        <Link to={`attendance-student/${item._id}`}>
           <TfiWrite className="text-primary text-xl" />
         </Link>
 
-        <Link to={`note/${item._id}`}>
+        <Link to={`note-student/${item._id}`}>
           <LiaNotesMedicalSolid className="text-primary text-2xl" />
         </Link>
       </div>

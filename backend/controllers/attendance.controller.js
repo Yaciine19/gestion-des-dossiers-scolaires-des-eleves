@@ -53,7 +53,7 @@ export const getStudentAttendance = async (req, res, next) => {
 export const updateAttendance = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status, reason } = req.body;
+    const { status, remark } = req.body;
 
     const attendance = await Attendance.findById(id);
     if (!attendance) {
@@ -63,7 +63,7 @@ export const updateAttendance = async (req, res, next) => {
     }
 
     if (status) attendance.status = status;
-    if (reason) attendance.reason = reason;
+    if (remark) attendance.remark = remark;
 
     await attendance.save();
 

@@ -3,11 +3,10 @@ import User from "../models/user.model.js";
 
 export const updateBulletin = async (req, res, next) => {
   try {
+    const {classId, subject} = req.user;
+    const {studentId} = req.params;
     const {
-      studentId,
-      classId,
       termNumber,
-      subjectId,
       testScore,
       continuousAssessment,
       examScore,
@@ -20,7 +19,7 @@ export const updateBulletin = async (req, res, next) => {
     }
 
     // التحقق مما إذا كان المعلم يدرّس هذه المادة
-    if (teacher.subject.toString() !== subjectId) {
+    if (teacher.subject.toString() !== subject.toString()) {
       return res.status(403).json({
         success: false,
         message: "You can only update grades for your assigned subject",
@@ -43,13 +42,13 @@ export const updateBulletin = async (req, res, next) => {
     }
 
     let subjectIndex = bulletin.subjects.findIndex(
-      (s) => s.subject.toString() === subjectId
+      (s) => s.subject.toString() === subject.toString()
     );
 
     if (subjectIndex === -1) {
       // إضافة المادة إذا لم تكن موجودة
       bulletin.subjects.push({
-        subject: subjectId,
+        subject,
         testScore,
         continuousAssessment,
         examScore,

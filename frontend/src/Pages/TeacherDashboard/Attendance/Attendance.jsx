@@ -65,7 +65,7 @@ export default function Attendance() {
         Manage absences and delays Students
       </h1>
 
-      <div className="flex items-center gap-3 border-2 py-3 max-w-lg px-6 rounded-lg border-primary font-poppins mb-8 md:mb-10">
+      <div className="flex items-center gap-3 border-2 py-3 px-6 rounded-lg border-primary font-poppins mb-8 md:mb-10">
         <PiStudent className="text-primary text-xl md:text-3xl" />
         <p className="text-xl md:text-3xl font-medium text-primary ">
           Student :{" "}
@@ -77,7 +77,7 @@ export default function Attendance() {
         </p>
       </div>
 
-      <div className="w-full mb-10 border border-primary rounded-lg">
+      <div className="w-full mb-10 border-2 border-primary rounded-lg">
         <div className="rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden">
           {isFormLoading ? (
             <Loading />

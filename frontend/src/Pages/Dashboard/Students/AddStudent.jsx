@@ -5,6 +5,7 @@ import Input from "../../../Components/Input";
 import { MdAssignmentAdd } from "react-icons/md";
 import DangerAlert from "../../../Components/Dashboard/DangerAlert";
 import { useNavigate } from "react-router";
+import Loading from "../../../Components/Loading";
 
 export default function AddStudent() {
   const [form, setForm] = useState({
@@ -103,7 +104,7 @@ export default function AddStudent() {
       <div className="w-full mb-10 border border-primary rounded-lg">
         <div className="rounded-lg shadow h-auto p-6 bg-white relative overflow-hidden">
           {isLoading ? (
-            <isLoading />
+            <Loading />
           ) : (
             <form onSubmit={handleOnSubmit} className="w-full mt-8 space-y-6">
               <div className="flex flex-col md:flex-row gap-3 md:gap-5">
