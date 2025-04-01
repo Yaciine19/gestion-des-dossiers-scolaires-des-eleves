@@ -200,17 +200,21 @@ export default function DashboardHome() {
 
           <div className="row-span-3 md:col-span-2 shadow rounded-lg">
             <div className="flex flex-col">
+              <div className="flex justify-between items-center mb-5">
+                <h3 className="text-xl md:text-2xl font-semibold text-primary ml-4 font-poppins">All Users</h3>
               <Link
                 to="users/add"
-                className="w-[90%] self-end mb-5 flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
+                className="w-[90%] flex gap-2 items-center max-w-50 justify-center py-3 bg-blue-500 hover:bg-blue-600 active:bg-blue-700 rounded-md text-white ring-2 font-poppins font-medium cursor-pointer"
               >
                 Add Admin <TiUserAdd className="text-2xl" />
               </Link>
+              </div>
               <Table
                 header={header}
                 data={users}
                 handleDelete={handleDelete}
                 isLoading={isUsersLoading}
+                isDashboard={true}
               />
             </div>
           </div>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Axios } from "../../../API/axios";
-import { CLASSES, STUDENTS } from "../../../API/API";
 import Input from "../../../Components/Input";
 import DangerAlert from "../../../Components/Dashboard/DangerAlert";
 import { useNavigate } from "react-router";

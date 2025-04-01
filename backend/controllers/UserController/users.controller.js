@@ -49,3 +49,39 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const search = async (req, res, next) => {
+  try {
+    const { query, role } = req.query;
+
+    if (!query) {
+      return res
+        .status(400)
+        .json({ message: "Please enter a word for seaching." });
+    }
+
+    if (!role) {
+      return res.status(400).json({ message: "Please enter a role." });
+    }
+
+    const results = await User.find({
+      $and: [
+        {
+          $or: [
+            { firstName: { $regex: query, $options: "i" } },
+            { lastName: { $regex: query, $options: "i" } },
+            { status: { $regex: query, $options: "i" } },
+            { email: { $regex: query, $options: "i" } },
+          ],
+        },
+        {
+          role: role,
+        },
+      ],
+    });
+
+    res.status(200).json(results);
+  } catch (error) {
+    next(error);
+  }
+};

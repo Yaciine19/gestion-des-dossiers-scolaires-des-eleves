@@ -1,5 +1,4 @@
 import { MdSpaceDashboard } from "react-icons/md";
-import { FaUsers } from "react-icons/fa";
 import { PiStudentBold } from "react-icons/pi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { MdEventAvailable } from "react-icons/md";
@@ -12,11 +11,6 @@ export const NavLinksAdmin = [
     icon: <MdSpaceDashboard />,
     to: "/dashboard",
     navigate: "Dashboard",
-  },
-  {
-    icon: <FaUsers />,
-    to: "/dashboard/users",
-    navigate: "All Users",
   },
   {
     icon: <PiStudentBold />,

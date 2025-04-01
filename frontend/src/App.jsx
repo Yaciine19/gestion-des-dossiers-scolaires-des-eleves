@@ -4,7 +4,6 @@ import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import RequireBack from "./Pages/Auth/RequireBack";
-import Users from "./Pages/Dashboard/Users/Users";
 import DashboardHome from "./Pages/Dashboard/Home/DashboardHome";
 import RequireAuth from "./Pages/Auth/RequireAuth";
 import Page404 from "./Pages/Auth/Page404";
@@ -42,7 +41,7 @@ import NoteOfStudent from "./Pages/TeacherDashboard/NoteOfStudent/NoteOfStudent"
 import StudentDashboard from "./Pages/StudentDashboard/StudentDashboard";
 import MyAttendance from "./Pages/StudentDashboard/MyAttendance/MyAttendance";
 import MyBulletin from "./Pages/StudentDashboard/MyBulletin/MyBulletin";
-import AddAdmin from "./Pages/Dashboard/Users/AddUser";
+import AddAdmin from "./Pages/Dashboard/AddAdmin/AddAdmin";
 
 export default function App() {
   return (
@@ -61,7 +60,6 @@ export default function App() {
         <Route element={<RequireAuth allowedRole={["Admin"]} />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route index element={<DashboardHome />} />
-            <Route path="users" element={<Users />} />
             <Route path="users/add" element={<AddAdmin />} />
 
             {/* Students */}

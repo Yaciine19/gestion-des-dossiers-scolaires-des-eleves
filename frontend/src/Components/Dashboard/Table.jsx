@@ -16,6 +16,8 @@ export default function Table({
   handleDelete,
   isLoading,
   notUsers = false,
+  isSearchingLoading,
+  isDashboard = false, // dashboard home Admin
 }) {
   const [user, setUser] = useState("");
 
@@ -74,7 +76,7 @@ export default function Table({
             : item[item2.key]}
         </td>
       ))}
-      {user.role === "Admin" && (
+      {user.role === "Admin" && !isDashboard && (
         <td className="p-6 border-l border-[#0D47A1]">
           <div className="flex items-center justify-around w-full gap-3 ">
             <Link to={`detail/${item._id}`}>
@@ -110,9 +112,11 @@ export default function Table({
               ID
             </th>
             {showHeader}
-            {user.role === "Admin" && <th scope="col" className="p-6 text-center">
-              Actions
-            </th>}
+            {user.role === "Admin" && !isDashboard && (
+              <th scope="col" className="p-6 text-center">
+                Actions
+              </th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -120,6 +124,12 @@ export default function Table({
             <tr>
               <td className="text-center" colSpan={9}>
                 <Loading />
+              </td>
+            </tr>
+          ) : isSearchingLoading ? (
+            <tr>
+              <td className="text-center p-6" colSpan={9}>
+                Searching...
               </td>
             </tr>
           ) : data.length === 0 ? (

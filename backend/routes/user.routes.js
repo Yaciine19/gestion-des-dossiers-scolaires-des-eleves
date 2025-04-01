@@ -29,7 +29,7 @@ import {
   updateAdmin,
 } from "../controllers/UserController/Admin/admin.controller.js";
 import { authorize } from "../middlewares/auth.middleware.js";
-import { deleteUser, getUser, getUsers } from "../controllers/UserController/users.controller.js";
+import { deleteUser, getUser, getUsers, search } from "../controllers/UserController/users.controller.js";
 
 const userRouter = Router();
 
@@ -93,5 +93,9 @@ userRouter.post("/admins", authorize, createAdmin);
 userRouter.put("/admins/:id", authorize, updateAdmin);
 
 userRouter.delete("/admins/:id", authorize, deleteAdmin);
+
+// Search in users
+
+userRouter.get("/search", authorize, search );
 
 export default userRouter;
